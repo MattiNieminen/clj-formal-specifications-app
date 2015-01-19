@@ -1,6 +1,6 @@
 # clj-formal-specifications-app
 
-A Clojure library designed to ... well, that part is up to you.
+A browser-based application for clj-formal-specifications.
 
 ## Usage
 
