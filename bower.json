@@ -1,0 +1,8 @@
+{
+  "name": "clj-formal-specifications-app",
+  "private": true,
+  "dependencies": {
+    "react": "~0.12.2",
+    "jquery": "~2.1.3"
+  }
+}
