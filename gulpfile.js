@@ -5,7 +5,7 @@ var less = require('gulp-less');
 var paths = {
   markup: 'frontend/index.html',
   less: 'frontend/style/*.less',
-  dest: 'resources/'
+  dest: 'resources/public'
 };
 
 gulp.task('clean', function(cb) {
