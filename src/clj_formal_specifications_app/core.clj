@@ -1,6 +1,9 @@
-(ns clj-formal-specifications-app.core)
+(ns clj-formal-specifications-app.core
+  (:require [compojure.core :refer :all]
+            [org.httpkit.server :refer [run-server]]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defroutes all-routes
+  (GET "/" [] "Hello World"))
+
+(defn -main []
+  (run-server all-routes {:port 5000}))

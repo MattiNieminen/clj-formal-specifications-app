@@ -4,4 +4,6 @@
   :url "https://github.com/MattiNieminen/clj-formal-specifications-app"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.6.0"]])
+  :dependencies [[org.clojure/clojure "1.6.0"]
+                [compojure "1.1.8"]
+                [http-kit "2.1.16"]])
