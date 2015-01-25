@@ -1,5 +1,6 @@
 (ns clj-formal-specifications-app.core
   (:require [compojure.core :refer :all]
+            [compojure.route :as route]
             [ring.middleware.defaults :refer :all]
             [ring.util.response :as resp]
             [org.httpkit.server :refer [run-server]]))
@@ -11,7 +12,9 @@
     "text/html"))
 
 (defroutes site-routes
-  (GET "/" [] index))
+  (GET "/" [] index)
+  (route/resources "/")
+  (route/not-found "Not found!"))
 
 (defn -main []
   (run-server (wrap-defaults site-routes site-defaults) {:port 5000}))
