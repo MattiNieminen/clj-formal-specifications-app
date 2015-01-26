@@ -23,9 +23,9 @@ gulp.task('less', function () {
   .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', ['markup', 'less'], function() {
   gulp.watch(paths.markup, ['markup']);
   gulp.watch(paths.less, ['less']);
 });
 
-gulp.task('default', ['watch', 'markup', 'less']);
+gulp.task('default', ['markup', 'less']);
