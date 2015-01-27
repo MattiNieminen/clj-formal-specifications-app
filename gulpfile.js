@@ -2,11 +2,13 @@ var gulp = require('gulp');
 var del = require('del');
 var concat = require('gulp-concat');
 var less = require('gulp-less');
+var react = require('gulp-react');
 
 var paths = {
   markup: 'frontend/index.html',
   less: 'frontend/style/*.less',
   scripts: ['bower_components/react/react.min.js'],
+  jsx: 'frontend/scripts/components.js',
   dest: 'resources/public'
 };
 
@@ -31,10 +33,17 @@ gulp.task('scripts', function () {
     .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('watch', ['markup', 'less', 'scripts'], function() {
-  gulp.watch(paths.markup, ['markup']);
-  gulp.watch(paths.less, ['less']);
-  gulp.watch(paths.scripts, ['scripts'])
+gulp.task('jsx', function () {
+  return gulp.src(paths.jsx)
+    .pipe(react({harmony: true}))
+    .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('default', ['markup', 'less', 'scripts']);
+gulp.task('watch', ['markup', 'less', 'scripts', 'jsx'], function() {
+  gulp.watch(paths.markup, ['markup']);
+  gulp.watch(paths.less, ['less']);
+  gulp.watch(paths.scripts, ['scripts']);
+  gulp.watch(paths.jsx, ['jsx'])
+});
+
+gulp.task('default', ['markup', 'less', 'scripts', 'jsx']);
