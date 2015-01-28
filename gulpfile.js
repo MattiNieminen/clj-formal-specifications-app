@@ -7,7 +7,7 @@ var react = require('gulp-react');
 var paths = {
   markup: 'frontend/index.html',
   less: 'frontend/style/*.less',
-  scripts: ['bower_components/react/react.min.js'],
+  scripts: ['bower_components/react/react.js'],
   jsx: 'frontend/scripts/components.js',
   dest: 'resources/public'
 };
