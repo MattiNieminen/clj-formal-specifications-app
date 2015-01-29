@@ -1,5 +1,40 @@
-@bg: #EEEEEE;
+.fullscreen {
+  height: 100%;
+  width: 100%;
+}
+
+html {
+  &:extend(.fullscreen);
+}
 
 body {
-  background: @bg;
+  &:extend(.fullscreen);
+}
+
+#content {
+  &:extend(.fullscreen);
+}
+
+#specificationBox {
+  &:extend(.fullscreen);
+}
+
+#navigation {
+  height: 100%;
+  width: 200px;
+  float: left;
+  background-color: blue;
+}
+
+#editor {
+  height: 100%;
+  overflow: auto;
+  background-color: green;
+}
+
+#executionBox {
+  height: 100%;
+  width: 650px;
+  float: right;
+  background-color: red;
 }

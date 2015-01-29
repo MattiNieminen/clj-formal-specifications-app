@@ -2,10 +2,9 @@ var SpecificationBox = React.createClass({
   render: function() {
     return (
       <div id="specificationBox">
-        This is the specificationBox!
         <Navigation />
-        <Editor />
         <ExecutionBox />
+        <Editor />
       </div>
     );
   }
