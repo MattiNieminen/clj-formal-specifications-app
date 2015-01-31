@@ -7,7 +7,10 @@ var react = require('gulp-react');
 var paths = {
   markup: 'frontend/index.html',
   less: 'frontend/style/*.less',
-  scripts: ['bower_components/react/react.js'],
+  scripts: ['bower_components/react/react.js',
+            'bower_components/ace-builds/src/ace.js',
+            'bower_components/ace-builds/src/mode-clojure.js',
+            'bower_components/ace-builds/src/theme-monokai.js'],
   jsx: 'frontend/scripts/components.js',
   dest: 'resources/public'
 };
