@@ -2,7 +2,7 @@ var SpecificationBox = React.createClass({
   render: function() {
     return (
       <div id="specificationBox">
-        <Navigation />
+        <Header />
         <ExecutionBox />
         <Editor />
       </div>
@@ -10,10 +10,10 @@ var SpecificationBox = React.createClass({
   }
 });
 
-var Navigation = React.createClass({
+var Header = React.createClass({
   render: function() {
     return (
-      <div id="navigation">
+      <div id="header">
         <ul>
           <li><a href="#compose">Compose</a></li>
           <li><a href="#export">Export</a></li>

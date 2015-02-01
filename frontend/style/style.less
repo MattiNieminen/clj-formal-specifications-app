@@ -19,21 +19,26 @@ body {
   &:extend(.fullscreen);
 }
 
-#navigation {
-  height: 100%;
-  width: 200px;
-  float: left;
+#header {
+  height: 50px;
+  width: 100%;
   background-color: blue;
+}
+
+#header ul li {
+  float: left;
+  margin: 0 25px 0 0;
 }
 
 #editor {
   height: 100%;
+  width: 55%;
   background-color: green;
 }
 
 #executionBox {
   height: 100%;
-  width: 650px;
+  width: 45%;
   float: right;
   background-color: red;
 }
