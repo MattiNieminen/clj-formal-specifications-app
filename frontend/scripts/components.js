@@ -21,11 +21,14 @@ var Navigation = React.createClass({
 });
 
 var Editor = React.createClass({
+  componentDidMount: function() {
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/clojure");
+  },
   render: function() {
     return (
-      <div id="editor">
-        This is the editor!
-      </div>
+      <div id="editor"></div>
     );
   }
 });
