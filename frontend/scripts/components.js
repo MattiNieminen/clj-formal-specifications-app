@@ -14,7 +14,12 @@ var Navigation = React.createClass({
   render: function() {
     return (
       <div id="navigation">
-        This is the navigation!
+        <ul>
+          <li><a href="#compose">Compose</a></li>
+          <li><a href="#export">Export</a></li>
+          <li><a href="#reset">Reset editor</a></li>
+          <li><a href="#examples">Examples</a></li>
+        </ul>
       </div>
     );
   }
