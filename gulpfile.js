@@ -10,7 +10,8 @@ var paths = {
   scripts: ['bower_components/react/react.js',
             'bower_components/ace-builds/src/ace.js',
             'bower_components/ace-builds/src/mode-clojure.js',
-            'bower_components/ace-builds/src/theme-monokai.js'],
+            'bower_components/ace-builds/src/theme-monokai.js',
+            'bower_components/jquery/dist/jquery.js'],
   jsx: 'frontend/scripts/components.js',
   dest: 'resources/public'
 };
