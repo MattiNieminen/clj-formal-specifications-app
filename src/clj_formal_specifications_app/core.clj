@@ -11,10 +11,25 @@
     (resp/resource-response "index.html" {:root "public"})
     "text/html"))
 
+(defn as-clj-file
+  [fname contents]
+  {:status 200
+   :body contents
+   :headers {"Content-Disposition" (str "attachment; filename=\"" fname "\"")
+             "Content-Type" "text/plain"}})
+
+(defroutes api-routes
+  (POST "/api/export" [contents] (as-clj-file "specification.clj" contents)))
+
 (defroutes site-routes
   (GET "/" [] index)
   (route/resources "/")
   (route/not-found "Not found!"))
 
-(defn -main []
-  (run-server (wrap-defaults site-routes site-defaults) {:port 5000}))
+
+(def app-routes (routes (wrap-defaults api-routes api-defaults)
+                        (wrap-defaults site-routes site-defaults)))
+
+(defn -main
+  []
+  (run-server app-routes {:port 5000}))
