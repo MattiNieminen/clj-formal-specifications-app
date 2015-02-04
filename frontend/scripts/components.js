@@ -1,4 +1,14 @@
 var SpecificationBox = React.createClass({
+  exportClicked: function() {
+    // This is so dirty, but what else can we do?
+    var contents = this.refs.editor.getValue();
+    var a = document.body.appendChild(document.createElement("a"));
+    a.download = "specification.clj";
+    a.href = "data:text/plain;charset=utf-8," + encodeURIComponent(contents);
+    a.innerHTML = "[Export content]";
+    a.click();
+    a.parentNode.removeChild(a);
+  },
   resetClicked: function() {
     this.refs.editor.setValue("");
     this.refs.editor.focus();
@@ -6,7 +16,9 @@ var SpecificationBox = React.createClass({
   render: function() {
     return (
       <div id="specificationBox">
-        <Header onResetClicked={this.resetClicked} />
+        <Header
+          onResetClicked={this.resetClicked}
+          onExportClicked={this.exportClicked} />
         <ExecutionBox />
         <Editor ref="editor"/>
       </div>
@@ -15,6 +27,9 @@ var SpecificationBox = React.createClass({
 });
 
 var Header = React.createClass({
+  handleExportClicked: function() {
+    this.props.onExportClicked();
+  },
   handleResetClicked: function() {
     this.props.onResetClicked();
   },
@@ -23,7 +38,9 @@ var Header = React.createClass({
       <div id="header">
         <ul>
           <li><a href="#compose">Compose</a></li>
-          <li><a href="#export">Export</a></li>
+          <li>
+            <a href="#export" onClick={this.handleExportClicked}>Export</a>
+          </li>
           <li>
             <a href="#reset" onClick={this.handleResetClicked}>Reset editor</a>
           </li>
