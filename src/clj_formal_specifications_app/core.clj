@@ -18,7 +18,6 @@
   (route/resources "/")
   (route/not-found "Not found!"))
 
-
 (def app-routes (routes (wrap-defaults api-routes api-defaults)
                         (wrap-defaults site-routes site-defaults)))
 
