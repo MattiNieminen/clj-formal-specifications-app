@@ -11,15 +11,7 @@
     (resp/resource-response "index.html" {:root "public"})
     "text/html"))
 
-(defn as-clj-file
-  [fname contents]
-  {:status 200
-   :body contents
-   :headers {"Content-Disposition" (str "attachment; filename=\"" fname "\"")
-             "Content-Type" "text/plain"}})
-
-(defroutes api-routes
-  (POST "/api/export" [contents] (as-clj-file "specification.clj" contents)))
+(defroutes api-routes)
 
 (defroutes site-routes
   (GET "/" [] index)
