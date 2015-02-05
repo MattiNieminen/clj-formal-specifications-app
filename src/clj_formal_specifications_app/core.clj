@@ -5,13 +5,13 @@
             [ring.util.response :as resp]
             [org.httpkit.server :refer [run-server]]))
 
+(defroutes api-routes)
+
 (defn index
   [req]
   (resp/content-type
     (resp/resource-response "index.html" {:root "public"})
     "text/html"))
-
-(defroutes api-routes)
 
 (defroutes site-routes
   (GET "/" [] index)
