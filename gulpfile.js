@@ -3,6 +3,7 @@ var del = require('del');
 var concat = require('gulp-concat');
 var less = require('gulp-less');
 var react = require('gulp-react');
+var download = require('gulp-download');
 
 var paths = {
   markup: 'frontend/index.html',
@@ -13,6 +14,9 @@ var paths = {
             'bower_components/ace-builds/src/theme-monokai.js',
             'bower_components/jquery/dist/jquery.js'],
   jsx: 'frontend/scripts/components.js',
+  examples: ['https://raw.githubusercontent.com/MattiNieminen/clj-formal-specifications/master/src/clj_formal_specifications/examples/coin.clj',
+             'https://raw.githubusercontent.com/MattiNieminen/clj-formal-specifications/master/src/clj_formal_specifications/examples/simple_account.clj',
+             'https://raw.githubusercontent.com/MattiNieminen/clj-formal-specifications/master/src/clj_formal_specifications/examples/shared_account.clj'],
   dest: 'resources/public'
 };
 
@@ -43,11 +47,17 @@ gulp.task('jsx', function () {
     .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('watch', ['markup', 'less', 'scripts', 'jsx'], function() {
+gulp.task('examples', function() {
+  return download(paths.examples)
+    .pipe(gulp.dest(paths.dest+'/examples'))
+});
+
+gulp.task('watch', ['markup', 'less', 'scripts', 'jsx', 'examples'],
+    function() {
   gulp.watch(paths.markup, ['markup']);
   gulp.watch(paths.less, ['less']);
   gulp.watch(paths.scripts, ['scripts']);
   gulp.watch(paths.jsx, ['jsx'])
 });
 
-gulp.task('default', ['markup', 'less', 'scripts', 'jsx']);
+gulp.task('default', ['markup', 'less', 'scripts', 'jsx', 'examples']);
