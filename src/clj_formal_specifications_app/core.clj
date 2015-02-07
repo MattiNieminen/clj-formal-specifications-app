@@ -21,7 +21,7 @@
 (defn example-listing
   [req]
   (let [filelist (files-as-list "resources/public/examples/")]
-    (zipmap (map filename-as-text filelist) filelist)))
+    {:body (zipmap (map filename-as-text filelist) filelist)}))
 
 (defroutes api-routes
   (GET "/api/examples" [] example-listing))
