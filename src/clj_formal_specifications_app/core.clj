@@ -3,9 +3,27 @@
             [compojure.route :as route]
             [ring.middleware.defaults :refer :all]
             [ring.util.response :as resp]
-            [org.httpkit.server :refer [run-server]]))
+            [org.httpkit.server :refer [run-server]]
+            [clojure.string :as str]))
 
-(defroutes api-routes)
+(defn filename-as-text
+  [filename]
+  (str/capitalize
+   (str/replace
+    (str/replace (peek (str/split filename #"/")) #".clj" "")
+    #"_" " ")))
+
+(defn files-as-list
+  [dir]
+  (rest (map str (file-seq (clojure.java.io/file dir)))))
+
+(defn example-listing
+  [req]
+  (let [filelist (files-as-list "resources/public/examples/")]
+    (zipmap (map filename-as-text filelist) filelist)))
+
+(defroutes api-routes
+  (GET "/api/examples" [] example-listing))
 
 (defn index
   [req]
