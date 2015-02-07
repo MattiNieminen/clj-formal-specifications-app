@@ -2,6 +2,7 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer :all]
+            [ring.middleware.json :refer :all]
             [ring.util.response :as resp]
             [org.httpkit.server :refer [run-server]]
             [clojure.string :as str]))
@@ -36,9 +37,15 @@
   (route/resources "/")
   (route/not-found "Not found!"))
 
-(def app-routes (routes (wrap-defaults api-routes api-defaults)
-                        (wrap-defaults site-routes site-defaults)))
+(def site (wrap-defaults site-routes site-defaults))
+
+(def api
+  (-> api-routes
+      (wrap-json-response)
+      (wrap-defaults api-defaults)))
+
+(def app (routes api site))
 
 (defn -main
   []
-  (run-server app-routes {:port 5000}))
+  (run-server app {:port 5000}))
