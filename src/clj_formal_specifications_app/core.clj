@@ -19,12 +19,12 @@
   (rest (map str (file-seq (clojure.java.io/file dir)))))
 
 (defn example-listing
-  [req]
+  []
   (let [filelist (files-as-list "resources/public/examples/")]
     {:body (zipmap (map filename-as-text filelist) filelist)}))
 
 (defroutes api-routes
-  (GET "/api/examples" [] example-listing))
+  (GET "/api/examples" [] (example-listing)))
 
 (defn index
   [req]
