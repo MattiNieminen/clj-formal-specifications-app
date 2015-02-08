@@ -7,6 +7,9 @@
             [org.httpkit.server :refer [run-server]]
             [clojure.string :as str]))
 
+
+(def example-dir "resources/public/examples")
+
 (defn filename-as-text
   [filename]
   (str/capitalize
@@ -20,7 +23,7 @@
 
 (defn example-listing
   []
-  (let [filelist (files-as-list "resources/public/examples/")]
+  (let [filelist (files-as-list example-dir)]
     {:body (zipmap (map filename-as-text filelist) filelist)}))
 
 (defroutes api-routes
