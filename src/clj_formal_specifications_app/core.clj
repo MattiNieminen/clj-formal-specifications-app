@@ -24,8 +24,13 @@
                       (files-as-list example-dir))]
     {:body (zipmap filelist (map filename-as-text filelist))}))
 
+(defn example-file
+  [filename]
+  {:body {:contents (slurp (str example-dir "/" filename))}})
+
 (defroutes api-routes
-  (GET "/api/examples" [] (example-listing)))
+  (GET "/api/examples" [] (example-listing))
+  (GET "/api/examples/:filename" [filename] (example-file filename)))
 
 (defn index
   [req]
