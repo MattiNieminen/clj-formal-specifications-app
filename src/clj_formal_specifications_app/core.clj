@@ -7,15 +7,12 @@
             [org.httpkit.server :refer [run-server]]
             [clojure.string :as str]))
 
-
 (def example-dir "resources/public/examples")
 
 (defn filename-as-text
   [filename]
   (str/capitalize
-   (str/replace
-    (str/replace (peek (str/split filename #"/")) #".clj" "")
-    #"_" " ")))
+   (str/replace (str/replace filename #"_" " ") #".clj" "")))
 
 (defn files-as-list
   [dir]
@@ -23,8 +20,9 @@
 
 (defn example-listing
   []
-  (let [filelist (files-as-list example-dir)]
-    {:body (zipmap (map filename-as-text filelist) filelist)}))
+  (let [filelist (map #(peek (str/split % #"/"))
+                      (files-as-list example-dir))]
+    {:body (zipmap filelist (map filename-as-text filelist))}))
 
 (defroutes api-routes
   (GET "/api/examples" [] (example-listing)))
