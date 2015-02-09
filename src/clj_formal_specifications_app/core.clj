@@ -14,15 +14,19 @@
   (str/capitalize
    (str/replace (str/replace filename #"_" " ") #".clj" "")))
 
-(defn files-as-list
+(defn example
+  [path]
+  (let [filename (peek (str/split path #"/"))]
+  {:title (filename-as-text filename)
+   :filename filename}))
+
+(defn files-as-strings
   [dir]
   (rest (map str (file-seq (clojure.java.io/file dir)))))
 
 (defn example-listing
   []
-  (let [filelist (map #(peek (str/split % #"/"))
-                      (files-as-list example-dir))]
-    {:body (zipmap filelist (map filename-as-text filelist))}))
+  {:body (map example (files-as-strings example-dir))})
 
 (defn example-file
   [filename]
