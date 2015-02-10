@@ -33,6 +33,14 @@ var Header = React.createClass({
   handleResetClicked: function() {
     this.props.onResetClicked();
   },
+  getInitialState: function() {
+    return {examples: []};
+  },
+  componentDidMount: function() {
+    $.get("api/examples", function(data) {
+      this.setState({examples: data});
+    }.bind(this));
+  },
   render: function() {
     return (
       <div id="header">
@@ -44,9 +52,27 @@ var Header = React.createClass({
           <li>
             <a href="#reset" onClick={this.handleResetClicked}>Reset editor</a>
           </li>
-          <li><a href="#examples">Examples</a></li>
+          <li>
+            <a href="#examples">Examples</a>
+            <ExampleList examples={this.state.examples} />
+          </li>
         </ul>
       </div>
+    );
+  }
+});
+
+var ExampleList = React.createClass({
+  render: function() {
+    var exampleNodes = this.props.examples.map(function(example) {
+      return (
+        <li key={example.filename}>{example.title}</li>
+      );
+    });
+    return (
+      <ul>
+        {exampleNodes}
+      </ul>
     );
   }
 });
