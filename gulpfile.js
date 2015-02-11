@@ -7,7 +7,8 @@ var download = require('gulp-download');
 
 var paths = {
   markup: 'frontend/index.html',
-  less: 'frontend/style/*.less',
+  style: ['frontend/style/*.less',
+         'bower_components/bootstrap/dist/css/bootstrap.css'],
   scripts: ['bower_components/react/react.js',
             'bower_components/ace-builds/src/ace.js',
             'bower_components/ace-builds/src/mode-clojure.js',
@@ -29,9 +30,10 @@ gulp.task('markup', function() {
   .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task('less', function () {
-  gulp.src(paths.less)
+gulp.task('style', function () {
+  gulp.src(paths.style)
   .pipe(less())
+  .pipe(concat('style.css'))
   .pipe(gulp.dest(paths.dest));
 });
 
@@ -52,12 +54,12 @@ gulp.task('examples', function() {
     .pipe(gulp.dest(paths.dest+'/examples'))
 });
 
-gulp.task('watch', ['markup', 'less', 'scripts', 'jsx', 'examples'],
+gulp.task('watch', ['markup', 'style', 'scripts', 'jsx', 'examples'],
     function() {
   gulp.watch(paths.markup, ['markup']);
-  gulp.watch(paths.less, ['less']);
+  gulp.watch(paths.style, ['style']);
   gulp.watch(paths.scripts, ['scripts']);
   gulp.watch(paths.jsx, ['jsx'])
 });
 
-gulp.task('default', ['markup', 'less', 'scripts', 'jsx', 'examples']);
+gulp.task('default', ['markup', 'style', 'scripts', 'jsx', 'examples']);
