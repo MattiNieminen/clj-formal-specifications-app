@@ -7,14 +7,12 @@ var download = require('gulp-download');
 
 var paths = {
   markup: 'frontend/index.html',
-  style: ['frontend/style/*.less',
-         'bower_components/bootstrap/dist/css/bootstrap.min.css'],
+  style: 'frontend/style/*.less',
   scripts: ['bower_components/react/react.js',
             'bower_components/ace-builds/src/ace.js',
             'bower_components/ace-builds/src/mode-clojure.js',
             'bower_components/ace-builds/src/theme-monokai.js',
-            'bower_components/jquery/dist/jquery.js',
-            'bower_components/react-bootstrap/react-bootstrap.min.js'],
+            'bower_components/jquery/dist/jquery.js'],
   jsx: 'frontend/scripts/components.js',
   examples: ['https://raw.githubusercontent.com/MattiNieminen/clj-formal-specifications/master/src/clj_formal_specifications/examples/coin.clj',
              'https://raw.githubusercontent.com/MattiNieminen/clj-formal-specifications/master/src/clj_formal_specifications/examples/simple_account.clj',
