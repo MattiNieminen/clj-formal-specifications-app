@@ -13,12 +13,17 @@ var SpecificationBox = React.createClass({
     this.refs.editor.setValue("");
     this.refs.editor.focus();
   },
+  exampleClicked: function(contents) {
+    this.refs.editor.setValue(contents);
+    this.refs.editor.clearSelection();
+  },
   render: function() {
     return (
       <div id="specificationBox">
         <Toolbar
             onResetClicked={this.resetClicked}
-            onExportClicked={this.exportClicked} />
+            onExportClicked={this.exportClicked}
+            onExampleClicked={this.exampleClicked} />
         <ExecutionBox />
         <Editor ref="editor"/>
       </div>
@@ -27,11 +32,16 @@ var SpecificationBox = React.createClass({
 });
 
 var Toolbar = React.createClass({
-  handleExportClicked: function() {
+  exportClicked: function() {
     this.props.onExportClicked();
   },
-  handleResetClicked: function() {
+  resetClicked: function() {
     this.props.onResetClicked();
+  },
+  exampleClicked: function(filename) {
+    $.get("api/examples/" + filename, function(data) {
+      this.props.onExampleClicked(data.contents);
+    }.bind(this));
   },
   getInitialState: function() {
     return {examples: []};
@@ -44,11 +54,12 @@ var Toolbar = React.createClass({
   render: function() {
     var exampleItems = this.state.examples.map(function(example) {
       return (
-        <ToolbarItem key={example.filename} url="#">
+        <ToolbarItem key={example.filename} url="#"
+            onItemClicked={this.exampleClicked.bind(this, example.filename)}>
           {example.title}
         </ToolbarItem>
       );
-    });
+    }, this);
     return (
       <div id="toolbar">
         <ul>
@@ -57,12 +68,12 @@ var Toolbar = React.createClass({
           </ToolbarItem>
 
           <ToolbarItem key={"export"} url={"#export"}
-              onItemClicked={this.handleExportClicked}>
+              onItemClicked={this.exportClicked}>
             Export
           </ToolbarItem>
 
           <ToolbarItem key={"reset"} url={"#reset"}
-              onItemClicked={this.handleResetClicked}>
+              onItemClicked={this.resetClicked}>
             Reset
           </ToolbarItem>
 
@@ -90,7 +101,7 @@ var Dropdown = React.createClass({
 });
 
 var ToolbarItem = React.createClass({
-  handleItemClicked: function() {
+  itemClicked: function() {
     if(typeof(this.props.onItemClicked) === typeof(Function)) {
       this.props.onItemClicked();
     }
@@ -98,7 +109,7 @@ var ToolbarItem = React.createClass({
   render: function() {
     return (
       <li>
-        <a href={this.props.url} onClick={this.handleItemClicked}>
+        <a href={this.props.url} onClick={this.itemClicked}>
           {this.props.children}
         </a>
       </li>
@@ -115,6 +126,9 @@ var Editor = React.createClass({
   },
   focus: function() {
     this.editor.focus();
+  },
+  clearSelection: function() {
+    this.editor.clearSelection();
   },
   componentDidMount: function() {
     var editor = ace.edit("editor");
