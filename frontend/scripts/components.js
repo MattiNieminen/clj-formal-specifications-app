@@ -87,15 +87,22 @@ var Toolbar = React.createClass({
 });
 
 var Dropdown = React.createClass({
+  toggleMenu: function() {
+    $(this.getDOMNode()).children("ul").slideToggle(100);
+  },
+  renderChildren: function() {
+    return React.Children.map(this.props.children, function(child) {
+      return React.addons.cloneWithProps(child, {toggleMenu: this.toggleMenu});
+    }.bind(this));
+  },
   render: function() {
     return (
       <li>
-        <a href="#">{this.props.title}</a>
+        <a href="#" onClick={this.toggleMenu}>{this.props.title}</a>
         <ul>
-          {this.props.children}
+          {this.renderChildren()}
         </ul>
       </li>
-
     );
   }
 });
@@ -104,6 +111,10 @@ var ToolbarItem = React.createClass({
   itemClicked: function() {
     if(typeof(this.props.onItemClicked) === typeof(Function)) {
       this.props.onItemClicked();
+    }
+
+    if(typeof(this.props.toggleMenu) === typeof(Function)) {
+      this.props.toggleMenu();
     }
   },
   render: function() {

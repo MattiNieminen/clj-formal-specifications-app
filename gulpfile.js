@@ -8,7 +8,7 @@ var download = require('gulp-download');
 var paths = {
   markup: 'frontend/index.html',
   style: 'frontend/style/*.less',
-  scripts: ['bower_components/react/react.js',
+  scripts: ['bower_components/react/react-with-addons.js',
             'bower_components/ace-builds/src/ace.js',
             'bower_components/ace-builds/src/mode-clojure.js',
             'bower_components/ace-builds/src/theme-monokai.js',
