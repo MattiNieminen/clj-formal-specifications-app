@@ -16,9 +16,9 @@ var SpecificationBox = React.createClass({
   render: function() {
     return (
       <div id="specificationBox">
-        <Header
-          onResetClicked={this.resetClicked}
-          onExportClicked={this.exportClicked} />
+        <Toolbar
+            onResetClicked={this.resetClicked}
+            onExportClicked={this.exportClicked} />
         <ExecutionBox />
         <Editor ref="editor"/>
       </div>
@@ -26,7 +26,7 @@ var SpecificationBox = React.createClass({
   }
 });
 
-var Header = React.createClass({
+var Toolbar = React.createClass({
   handleExportClicked: function() {
     this.props.onExportClicked();
   },
@@ -42,37 +42,66 @@ var Header = React.createClass({
     }.bind(this));
   },
   render: function() {
+    var exampleItems = this.state.examples.map(function(example) {
+      return (
+        <ToolbarItem key={example.filename} url="#">
+          {example.title}
+        </ToolbarItem>
+      );
+    });
     return (
-      <div id="header">
+      <div id="toolbar">
         <ul>
-          <li><a href="#compose">Compose</a></li>
-          <li>
-            <a href="#export" onClick={this.handleExportClicked}>Export</a>
-          </li>
-          <li>
-            <a href="#reset" onClick={this.handleResetClicked}>Reset editor</a>
-          </li>
-          <li>
-            <a href="#examples">Examples</a>
-            <ExampleList examples={this.state.examples} />
-          </li>
+          <ToolbarItem key={"compose"} url={"#compose"}>
+            Compose
+          </ToolbarItem>
+
+          <ToolbarItem key={"export"} url={"#export"}
+              onItemClicked={this.handleExportClicked}>
+            Export
+          </ToolbarItem>
+
+          <ToolbarItem key={"reset"} url={"#reset"}
+              onItemClicked={this.handleResetClicked}>
+            Reset
+          </ToolbarItem>
+
+          <Dropdown title={"Examples"}>
+            {exampleItems}
+          </Dropdown>
         </ul>
       </div>
     );
   }
 });
 
-var ExampleList = React.createClass({
+var Dropdown = React.createClass({
   render: function() {
-    var exampleNodes = this.props.examples.map(function(example) {
-      return (
-        <li key={example.filename}>{example.title}</li>
-      );
-    });
     return (
-      <ul>
-        {exampleNodes}
-      </ul>
+      <li>
+        <a href="#">{this.props.title}</a>
+        <ul>
+          {this.props.children}
+        </ul>
+      </li>
+
+    );
+  }
+});
+
+var ToolbarItem = React.createClass({
+  handleItemClicked: function() {
+    if(typeof(this.props.onItemClicked) === typeof(Function)) {
+      this.props.onItemClicked();
+    }
+  },
+  render: function() {
+    return (
+      <li>
+        <a href={this.props.url} onClick={this.handleItemClicked}>
+          {this.props.children}
+        </a>
+      </li>
     );
   }
 });
