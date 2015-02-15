@@ -8,4 +8,5 @@
                  [compojure "1.3.1"]
                  [ring/ring-defaults "0.1.3"]
                  [ring/ring-json "0.3.1"]
-                 [http-kit "2.1.19"]])
+                 [http-kit "2.1.19"]
+                 [clj-formal-specifications "1.0.0"]])
