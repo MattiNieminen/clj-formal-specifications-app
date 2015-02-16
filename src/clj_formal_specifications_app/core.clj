@@ -32,9 +32,14 @@
   [filename]
   {:body {:contents (slurp (str example-dir "/" filename))}})
 
+(defn compose
+  [specification]
+  {:body (str (load-string specification))})
+
 (defroutes api-routes
   (GET "/api/examples" [] (example-listing))
-  (GET "/api/examples/:filename" [filename] (example-file filename)))
+  (GET "/api/examples/:filename" [filename] (example-file filename))
+  (POST "/api/compose" [specification] (compose specification)))
 
 (defn index
   [req]
