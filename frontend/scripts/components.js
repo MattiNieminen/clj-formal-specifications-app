@@ -9,6 +9,14 @@ var SpecificationBox = React.createClass({
     a.click();
     a.parentNode.removeChild(a);
   },
+  composeClicked: function() {
+    var specification = this.refs.editor.getValue();
+
+    $.post("api/compose", {specification: specification}, function(data) {
+      //TODO real implementation
+      alert(data);
+    });
+  },
   resetClicked: function() {
     this.refs.editor.setValue("");
     this.refs.editor.focus();
@@ -21,6 +29,7 @@ var SpecificationBox = React.createClass({
     return (
       <div id="specificationBox">
         <Toolbar
+            onComposeClicked={this.composeClicked}
             onResetClicked={this.resetClicked}
             onExportClicked={this.exportClicked}
             onExampleClicked={this.exampleClicked} />
@@ -32,6 +41,9 @@ var SpecificationBox = React.createClass({
 });
 
 var Toolbar = React.createClass({
+  composeClicked: function() {
+    this.props.onComposeClicked();
+  },
   exportClicked: function() {
     this.props.onExportClicked();
   },
@@ -63,7 +75,8 @@ var Toolbar = React.createClass({
     return (
       <div id="toolbar">
         <ul>
-          <ToolbarItem key={"compose"} url={"#compose"}>
+          <ToolbarItem key={"compose"} url={"#compose"}
+              onItemClicked={this.composeClicked}>
             Compose
           </ToolbarItem>
 
