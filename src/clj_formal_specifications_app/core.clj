@@ -32,9 +32,15 @@
   [filename]
   {:body {:contents (slurp (str example-dir "/" filename))}})
 
+(defn get-ns-name
+  [s]
+  (re-find #"(?<=\(ns\s)[a-zA-Z0-9\.-]+(?=[\s\(\)])" s))
+
 (defn compose
   [specification]
-  {:body (str (load-string specification))})
+  {:body (do
+           (load-string specification)
+           (get-ns-name specification))})
 
 (defroutes api-routes
   (GET "/api/examples" [] (example-listing))
