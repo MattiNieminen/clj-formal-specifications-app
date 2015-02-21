@@ -36,11 +36,20 @@
   [s]
   (re-find #"(?<=\(ns\s)[a-zA-Z0-9\.-]+(?=[\s\(\)])" s))
 
+(defn ns-actions
+  [ns]
+  (map key (filter #(:action (meta (val %))) (ns-publics (symbol ns)))))
+
+(defn ns-specification
+  [ns]
+  {:actions (ns-actions ns)})
+
 (defn compose
   [specification]
+  (let [ns-name (get-ns-name specification)]
   {:body (do
            (load-string specification)
-           (get-ns-name specification))})
+           (ns-specification ns-name))}))
 
 (defroutes api-routes
   (GET "/api/examples" [] (example-listing))
