@@ -14,7 +14,7 @@ var SpecificationBox = React.createClass({
 
     $.post("api/compose", {specification: specification}, function(data) {
       //TODO real implementation
-      alert(data);
+      console.log("specification: ", data);
     });
   },
   resetClicked: function() {
