@@ -40,9 +40,15 @@
   [ns]
   (map key (filter #(:action (meta (val %))) (ns-publics (symbol ns)))))
 
+(defn ns-spec-refs
+  [ns]
+  (map key (filter #(:spec-ref (meta (var-get (val %))))
+                   (ns-publics (symbol ns)))))
+
 (defn ns-specification
   [ns]
-  {:actions (ns-actions ns)})
+  {:actions (ns-actions ns)
+   :spec-refs (ns-spec-refs ns)})
 
 (defn compose
   [specification]
