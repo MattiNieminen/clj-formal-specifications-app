@@ -36,19 +36,36 @@
   [s]
   (re-find #"(?<=\(ns\s)[a-zA-Z0-9\.-]+(?=[\s\(\)])" s))
 
-(defn ns-actions
-  [ns]
-  (map key (filter #(:action (meta (val %))) (ns-publics (symbol ns)))))
+(defn action-entry?
+  [map-entry]
+  (:action (meta (val map-entry))))
 
-(defn ns-spec-refs
-  [ns]
-  (map key (filter #(:spec-ref (meta (var-get (val %))))
-                   (ns-publics (symbol ns)))))
+(defn spec-ref-entry?
+  [map-entry]
+  (:spec-ref (meta (var-get (val map-entry)))))
+
+(defn assoc-action-to-specification
+  [specification action-entry]
+  (assoc-in specification [:actions (key action-entry)] {}))
+
+(defn assoc-spec-ref-to-specification
+  [specification spec-ref-entry]
+  (assoc-in specification [:spec-refs (key spec-ref-entry)] {}))
+
+(defn assoc-to-specification
+ [specification map-entry]
+  (cond
+   (action-entry? map-entry)
+   (assoc-action-to-specification specification map-entry)
+
+   (spec-ref-entry? map-entry)
+   (assoc-spec-ref-to-specification specification map-entry)
+
+   :else specification))
 
 (defn ns-specification
   [ns]
-  {:actions (ns-actions ns)
-   :spec-refs (ns-spec-refs ns)})
+  (reduce assoc-to-specification {} (ns-publics (symbol ns))))
 
 (defn compose
   [specification]
