@@ -46,7 +46,9 @@
 
 (defn assoc-action-to-spec
   [spec action-entry]
-  (assoc-in spec [:actions (key action-entry)] {}))
+  (assoc-in spec
+            [:actions (key action-entry)]
+            {:arglists (:arglists (meta (val action-entry)))}))
 
 (defn assoc-spec-ref-to-spec
   [spec spec-ref-entry]
