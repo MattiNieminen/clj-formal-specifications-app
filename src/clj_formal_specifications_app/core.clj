@@ -44,35 +44,31 @@
   [map-entry]
   (:spec-ref (meta (var-get (val map-entry)))))
 
-(defn assoc-action-to-specification
-  [specification action-entry]
-  (assoc-in specification [:actions (key action-entry)] {}))
+(defn assoc-action-to-spec
+  [spec action-entry]
+  (assoc-in spec [:actions (key action-entry)] {}))
 
-(defn assoc-spec-ref-to-specification
-  [specification spec-ref-entry]
-  (assoc-in specification [:spec-refs (key spec-ref-entry)] {}))
+(defn assoc-spec-ref-to-spec
+  [spec spec-ref-entry]
+  (assoc-in spec [:spec-refs (key spec-ref-entry)] {}))
 
-(defn assoc-to-specification
- [specification map-entry]
+(defn assoc-to-spec
+ [spec map-entry]
   (cond
-   (action-entry? map-entry)
-   (assoc-action-to-specification specification map-entry)
+   (action-entry? map-entry) (assoc-action-to-spec spec map-entry)
+   (spec-ref-entry? map-entry) (assoc-spec-ref-to-spec spec map-entry)
+   :else spec))
 
-   (spec-ref-entry? map-entry)
-   (assoc-spec-ref-to-specification specification map-entry)
-
-   :else specification))
-
-(defn ns-specification
+(defn ns-spec
   [ns]
-  (reduce assoc-to-specification {} (ns-publics (symbol ns))))
+  (reduce assoc-to-spec {} (ns-publics (symbol ns))))
 
 (defn compose
-  [specification]
-  (let [ns-name (get-ns-name specification)]
+  [spec]
+  (let [ns-name (get-ns-name spec)]
   {:body (do
-           (load-string specification)
-           (ns-specification ns-name))}))
+           (load-string spec)
+           (ns-spec ns-name))}))
 
 (defroutes api-routes
   (GET "/api/examples" [] (example-listing))
