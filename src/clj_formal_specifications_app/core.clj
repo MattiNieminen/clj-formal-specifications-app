@@ -52,7 +52,9 @@
 
 (defn assoc-spec-ref-to-spec
   [spec spec-ref-entry]
-  (assoc-in spec [:spec-refs (key spec-ref-entry)] {}))
+  (assoc-in spec
+            [:spec-refs (key spec-ref-entry)]
+            {:data @(var-get (val spec-ref-entry))}))
 
 (defn assoc-to-spec
  [spec map-entry]
