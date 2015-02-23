@@ -46,13 +46,13 @@
 
 (defn conj-actions
   [actions action-entry]
-  (conj actions {:id (key action-entry)
+  (conj actions {:name (key action-entry)
                  :arglist (first (:arglists (meta (val action-entry))))}))
 
 (defn conj-spec-refs
   [spec-refs spec-ref-entry]
-  (conj spec-refs {:id (key spec-ref-entry)
-                   :data @(var-get (val spec-ref-entry))}))
+  (conj spec-refs {:name (key spec-ref-entry)
+                   :contents @(var-get (val spec-ref-entry))}))
 
 (defn assoc-to-spec
  [spec map-entry]
