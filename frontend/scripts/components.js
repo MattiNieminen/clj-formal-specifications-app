@@ -10,12 +10,12 @@ var SpecificationBox = React.createClass({
     a.parentNode.removeChild(a);
   },
   composeClicked: function() {
-    var specification = this.refs.editor.getValue();
+    var spec = this.refs.editor.getValue();
 
-    $.post("api/compose", {specification: specification}, function(data) {
-      //TODO real implementation
-      console.log("specification: ", data);
-    });
+    $.post("api/compose", {specification: spec}, function(spec) {
+      console.log("specification: ", spec);
+      this.setState({spec: spec});
+    }.bind(this));
   },
   resetClicked: function() {
     this.refs.editor.setValue("");
@@ -25,6 +25,9 @@ var SpecificationBox = React.createClass({
     this.refs.editor.setValue(contents);
     this.refs.editor.clearSelection();
   },
+  getInitialState: function() {
+    return {spec: {actions: [], data: []}};
+  },
   render: function() {
     return (
       <div id="specificationBox">
@@ -33,7 +36,8 @@ var SpecificationBox = React.createClass({
             onResetClicked={this.resetClicked}
             onExportClicked={this.exportClicked}
             onExampleClicked={this.exampleClicked} />
-        <ExecutionBox />
+        <ExecutionBox
+            spec={this.state.spec} />
         <Editor ref="editor"/>
       </div>
     );
@@ -172,8 +176,44 @@ var ExecutionBox = React.createClass({
   render: function() {
     return (
       <div id="executionBox">
-        This is the executionBox!
+        <DataBox data={this.props.spec.data} />
       </div>
+    );
+  }
+});
+
+var DataBox = React.createClass({
+  render: function() {
+    var dataItems = this.props.data.map(function(dataItem) {
+      return (
+        <DataItem key={dataItem.name} data={dataItem} />
+      );
+  });
+    return (
+      <div id="dataBox">
+        <h2>Data</h2>
+        <ul>
+          {dataItems}
+        </ul>
+      </div>
+    );
+  }
+});
+
+var DataItem = React.createClass({
+  toggleContent: function() {
+    $(this.getDOMNode()).children(".dataItemContent").slideToggle(100);
+  },
+  render: function() {
+    return (
+      <li>
+        <a href="#" onClick={this.toggleContent}>
+          {this.props.data.name}
+        </a>
+        <div className="dataItemContent">
+          <p>{this.props.data.contents}</p>
+        </div>
+      </li>
     );
   }
 });
