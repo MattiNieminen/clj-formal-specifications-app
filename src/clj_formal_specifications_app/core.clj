@@ -52,7 +52,7 @@
 (defn conj-spec-refs
   [spec-refs spec-ref-entry]
   (conj spec-refs {:name (key spec-ref-entry)
-                   :contents @(var-get (val spec-ref-entry))}))
+                   :contents (str @(var-get (val spec-ref-entry)))}))
 
 (defn assoc-to-spec
  [spec map-entry]
