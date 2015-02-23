@@ -44,23 +44,25 @@
   [map-entry]
   (:spec-ref (meta (var-get (val map-entry)))))
 
-(defn assoc-action-to-spec
-  [spec action-entry]
-  (assoc-in spec
-            [:actions (key action-entry)]
-            {:arglists (:arglists (meta (val action-entry)))}))
+(defn conj-actions
+  [actions action-entry]
+  (conj actions {:id (key action-entry)
+                 :arglist (first (:arglists (meta (val action-entry))))}))
 
-(defn assoc-spec-ref-to-spec
-  [spec spec-ref-entry]
-  (assoc-in spec
-            [:spec-refs (key spec-ref-entry)]
-            {:data @(var-get (val spec-ref-entry))}))
+(defn conj-spec-refs
+  [spec-refs spec-ref-entry]
+  (conj spec-refs {:id (key spec-ref-entry)
+                   :data @(var-get (val spec-ref-entry))}))
 
 (defn assoc-to-spec
  [spec map-entry]
   (cond
-   (action-entry? map-entry) (assoc-action-to-spec spec map-entry)
-   (spec-ref-entry? map-entry) (assoc-spec-ref-to-spec spec map-entry)
+   (action-entry? map-entry)
+   (assoc spec :actions (conj-actions (:actions spec) map-entry))
+
+   (spec-ref-entry? map-entry)
+   (assoc spec :spec-refs (conj-spec-refs (:spec-refs spec) map-entry))
+
    :else spec))
 
 (defn ns-spec
