@@ -61,13 +61,13 @@
    (assoc spec :actions (conj-actions (:actions spec) map-entry))
 
    (spec-ref-entry? map-entry)
-   (assoc spec :spec-refs (conj-spec-refs (:spec-refs spec) map-entry))
+   (assoc spec :data (conj-spec-refs (:data spec) map-entry))
 
    :else spec))
 
 (defn ns-spec
   [ns]
-  (reduce assoc-to-spec {} (ns-publics (symbol ns))))
+  (reduce assoc-to-spec {:actions #{} :data #{}} (ns-publics (symbol ns))))
 
 (defn compose
   [spec]
