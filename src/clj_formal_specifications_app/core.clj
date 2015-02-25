@@ -78,10 +78,15 @@
            (load-string spec)
            (ns-spec ns-name))}))
 
+(defn execute-with-ns
+  [ns command]
+  {:body (str (binding [*ns* (find-ns (symbol ns))] (load-string command)))})
+
 (defroutes api-routes
   (GET "/api/examples" [] (example-listing))
   (GET "/api/examples/:filename" [filename] (example-file filename))
-  (POST "/api/compose" [specification] (compose specification)))
+  (POST "/api/compose" [specification] (compose specification))
+  (POST "/api/execute" [ns command] (execute-with-ns ns command)))
 
 (defn index
   [req]
