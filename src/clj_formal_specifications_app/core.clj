@@ -67,7 +67,9 @@
 
 (defn ns-spec
   [ns]
-  (reduce assoc-to-spec {:actions #{} :data #{}} (ns-publics (symbol ns))))
+  (reduce assoc-to-spec
+          {:namespace ns :actions #{} :data #{}}
+          (ns-publics (symbol ns))))
 
 (defn compose
   [spec]
