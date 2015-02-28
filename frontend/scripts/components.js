@@ -180,7 +180,24 @@ var ExecutionBox = React.createClass({
   render: function() {
     return (
       <div id="executionBox">
+        <ActionBox />
         <DataBox data={this.props.spec.data} />
+      </div>
+    );
+  }
+});
+
+var ActionBox = React.createClass({
+  componentDidMount: function() {
+    var editor = ace.edit("executionEditor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/clojure");
+  },
+  render: function() {
+    return (
+      <div id="actionBox">
+        <h2>Execute actions</h2>
+        <div id="executionEditor" />
       </div>
     );
   }
