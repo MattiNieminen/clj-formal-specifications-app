@@ -73,10 +73,7 @@
 
 (defn compose
   [spec]
-  (let [ns-name (get-ns-name spec)]
-  {:body (do
-           (load-string spec)
-           (ns-spec ns-name))}))
+  {:body (do (load-string spec) (get-ns-name spec))})
 
 (defn execute-with-ns
   [ns command]

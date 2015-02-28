@@ -12,9 +12,8 @@ var SpecificationBox = React.createClass({
   composeClicked: function() {
     var spec = this.refs.editor.getValue();
 
-    $.post("api/compose", {specification: spec}, function(spec) {
-      console.log("specification: ", spec);
-      this.setState({spec: spec});
+    $.post("api/compose", {specification: spec}, function(ns) {
+      this.getNsFromServer(ns);
     }.bind(this));
   },
   resetClicked: function() {
@@ -25,8 +24,13 @@ var SpecificationBox = React.createClass({
     this.refs.editor.setValue(contents);
     this.refs.editor.clearSelection();
   },
+  getNsFromServer: function(ns) {
+    $.get("api/namespace/" + ns, function(spec) {
+      this.setState(spec);
+    }.bind(this));
+  },
   getInitialState: function() {
-    return {spec: {actions: [], data: []}};
+    return {};
   },
   render: function() {
     return (
@@ -37,7 +41,7 @@ var SpecificationBox = React.createClass({
             onExportClicked={this.exportClicked}
             onExampleClicked={this.exampleClicked} />
         <ExecutionBox
-            spec={this.state.spec} />
+            spec={this.state} />
         <Editor ref="editor"/>
       </div>
     );
@@ -184,11 +188,16 @@ var ExecutionBox = React.createClass({
 
 var DataBox = React.createClass({
   render: function() {
-    var dataItems = this.props.data.map(function(dataItem) {
-      return (
-        <DataItem key={dataItem.name} data={dataItem} />
-      );
-  });
+    var dataItems = [];
+
+    if(typeof this.props.data !== 'undefined') {
+      dataItems = this.props.data.map(function(dataItem) {
+        return (
+          <DataItem key={dataItem.name} data={dataItem} />
+        );
+      });
+    }
+
     return (
       <div id="dataBox">
         <h2>Data</h2>
