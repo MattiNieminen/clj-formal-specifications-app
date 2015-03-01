@@ -41,7 +41,8 @@ var SpecificationBox = React.createClass({
             onExportClicked={this.exportClicked}
             onExampleClicked={this.exampleClicked} />
         <ExecutionBox
-            spec={this.state} />
+            spec={this.state}
+            onActionExecuted={this.getNsFromServer} />
         <Editor ref="editor"/>
       </div>
     );
@@ -177,10 +178,15 @@ var Editor = React.createClass({
 });
 
 var ExecutionBox = React.createClass({
+  actionExecuted: function(ns) {
+    this.props.onActionExecuted(ns);
+  },
   render: function() {
     return (
       <div id="executionBox">
-        <ActionBox />
+        <ActionBox
+            namespace={this.props.spec.namespace}
+            onActionExecuted={this.actionExecuted} />
         <DataBox data={this.props.spec.data} />
       </div>
     );
@@ -188,10 +194,30 @@ var ExecutionBox = React.createClass({
 });
 
 var ActionBox = React.createClass({
+  actionExecuted: function(ns) {
+    this.props.onActionExecuted(ns);
+  },
   componentDidMount: function() {
     var editor = ace.edit("executionEditor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/clojure");
+
+    editor.commands.addCommand({
+      name: 'executeCommand',
+      bindKey: 'enter',
+      exec: function(editor) {
+        var requestObject = {
+          ns: this.props.namespace,
+          command: editor.getValue()
+        };
+
+        $.post("api/execute", requestObject, function(data) {
+          this.actionExecuted(requestObject.ns);
+        }.bind(this));
+      }.bind(this),
+      readOnly: false
+
+    });
   },
   render: function() {
     return (
