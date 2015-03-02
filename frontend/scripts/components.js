@@ -197,6 +197,9 @@ var ActionBox = React.createClass({
   actionExecuted: function(ns) {
     this.props.onActionExecuted(ns);
   },
+  getInitialState: function() {
+    return {};
+  },
   componentDidMount: function() {
     var editor = ace.edit("executionEditor");
     editor.setTheme("ace/theme/monokai");
@@ -212,11 +215,11 @@ var ActionBox = React.createClass({
         };
 
         $.post("api/execute", requestObject, function(data) {
+          this.setState({latestResult: data});
           this.actionExecuted(requestObject.ns);
         }.bind(this));
       }.bind(this),
       readOnly: false
-
     });
   },
   render: function() {
@@ -224,6 +227,8 @@ var ActionBox = React.createClass({
       <div id="actionBox">
         <h2>Execute actions</h2>
         <div id="executionEditor" />
+        <h2>Latest result</h2>
+        <p>{this.state.latestResult}</p>
       </div>
     );
   }
