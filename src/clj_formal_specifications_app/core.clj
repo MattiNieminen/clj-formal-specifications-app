@@ -17,8 +17,8 @@
 (defn example
   [path]
   (let [filename (peek (str/split path #"/"))]
-  {:title (filename-as-text filename)
-   :filename filename}))
+    {:title (filename-as-text filename)
+     :filename filename}))
 
 (defn files-as-strings
   [dir]
@@ -74,7 +74,7 @@
 (defn compose
   [spec]
   (let [ns (get-ns-name spec)]
-  {:body (do (remove-ns (symbol ns)) (load-string spec) ns)}))
+    {:body (do (remove-ns (symbol ns)) (load-string spec) ns)}))
 
 (defn execute-with-ns
   [ns command]
