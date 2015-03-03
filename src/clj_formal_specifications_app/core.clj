@@ -73,7 +73,8 @@
 
 (defn compose
   [spec]
-  {:body (do (load-string spec) (get-ns-name spec))})
+  (let [ns (get-ns-name spec)]
+  {:body (do (remove-ns (symbol ns)) (load-string spec) ns)}))
 
 (defn execute-with-ns
   [ns command]
