@@ -13,7 +13,7 @@ var SpecificationBox = React.createClass({
     var spec = this.refs.editor.getValue();
 
     $.post("api/compose", {specification: spec}, function(ns) {
-      this.getNsFromServer(ns);
+      this.updateState(ns);
     }.bind(this));
   },
   resetClicked: function() {
@@ -24,8 +24,9 @@ var SpecificationBox = React.createClass({
     this.refs.editor.setValue(contents);
     this.refs.editor.clearSelection();
   },
-  getNsFromServer: function(ns) {
+  updateState: function(ns, latestResult) {
     $.get("api/namespace/" + ns, function(spec) {
+      spec.latestResult = latestResult;
       this.setState(spec);
     }.bind(this));
   },
@@ -42,7 +43,7 @@ var SpecificationBox = React.createClass({
             onExampleClicked={this.exampleClicked} />
         <ExecutionBox
             spec={this.state}
-            onActionExecuted={this.getNsFromServer} />
+            onActionExecuted={this.updateState} />
         <Editor ref="editor"/>
       </div>
     );
@@ -178,8 +179,8 @@ var Editor = React.createClass({
 });
 
 var ExecutionBox = React.createClass({
-  actionExecuted: function(ns) {
-    this.props.onActionExecuted(ns);
+  actionExecuted: function(ns, data) {
+    this.props.onActionExecuted(ns, data);
   },
   render: function() {
     return (
@@ -187,6 +188,7 @@ var ExecutionBox = React.createClass({
         <ActionBox
             namespace={this.props.spec.namespace}
             onActionExecuted={this.actionExecuted} />
+        <LatestResultBox data={this.props.spec.latestResult} />
         <DataBox data={this.props.spec.data} />
       </div>
     );
@@ -194,11 +196,8 @@ var ExecutionBox = React.createClass({
 });
 
 var ActionBox = React.createClass({
-  actionExecuted: function(ns) {
-    this.props.onActionExecuted(ns);
-  },
-  getInitialState: function() {
-    return {};
+  actionExecuted: function(ns, data) {
+    this.props.onActionExecuted(ns, data);
   },
   componentDidMount: function() {
     var editor = ace.edit("executionEditor");
@@ -215,8 +214,7 @@ var ActionBox = React.createClass({
         };
 
         $.post("api/execute", requestObject, function(data) {
-          this.setState({latestResult: data});
-          this.actionExecuted(requestObject.ns);
+          this.actionExecuted(requestObject.ns, data);
         }.bind(this));
       }.bind(this),
       readOnly: false
@@ -227,8 +225,17 @@ var ActionBox = React.createClass({
       <div id="actionBox">
         <h2>Execute actions</h2>
         <div id="executionEditor" />
+      </div>
+    );
+  }
+});
+
+var LatestResultBox = React.createClass({
+  render: function() {
+    return (
+      <div id="latestResultBox">
         <h2>Latest result</h2>
-        <p>{this.state.latestResult}</p>
+        <p>{this.props.data}</p>
       </div>
     );
   }
