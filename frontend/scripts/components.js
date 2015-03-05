@@ -19,6 +19,8 @@ var SpecificationBox = React.createClass({
   resetClicked: function() {
     this.refs.editor.setValue("");
     this.refs.editor.focus();
+    this.replaceState({});
+    this.refs.executionBox.setValue("");
   },
   exampleClicked: function(contents) {
     this.refs.editor.setValue(contents);
@@ -43,7 +45,8 @@ var SpecificationBox = React.createClass({
             onExampleClicked={this.exampleClicked} />
         <ExecutionBox
             spec={this.state}
-            onActionExecuted={this.updateState} />
+            onActionExecuted={this.updateState}
+            ref="executionBox" />
         <Editor ref="editor"/>
       </div>
     );
@@ -182,12 +185,16 @@ var ExecutionBox = React.createClass({
   actionExecuted: function(ns, data) {
     this.props.onActionExecuted(ns, data);
   },
+  setValue: function(value) {
+    this.refs.executionBox.setValue(value);
+  },
   render: function() {
     return (
       <div id="executionBox">
         <ActionBox
             namespace={this.props.spec.namespace}
-            onActionExecuted={this.actionExecuted} />
+            onActionExecuted={this.actionExecuted}
+            ref="executionBox" />
         <LatestResultBox data={this.props.spec.latestResult} />
         <DataBox data={this.props.spec.data} />
       </div>
@@ -198,6 +205,9 @@ var ExecutionBox = React.createClass({
 var ActionBox = React.createClass({
   actionExecuted: function(ns, data) {
     this.props.onActionExecuted(ns, data);
+  },
+  setValue: function(value) {
+    this.editor.setValue(value);
   },
   componentDidMount: function() {
     var editor = ace.edit("executionEditor");
@@ -219,6 +229,8 @@ var ActionBox = React.createClass({
       }.bind(this),
       readOnly: false
     });
+
+    this.editor = editor;
   },
   render: function() {
     return (
