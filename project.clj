@@ -9,4 +9,7 @@
                  [ring/ring-defaults "0.1.4"]
                  [ring/ring-json "0.3.1"]
                  [http-kit "2.1.19"]
-                 [clj-formal-specifications "1.1.0"]])
+                 [clj-formal-specifications "1.1.0"]]
+  :main ^:skip-aot clj-formal-specifications-app.server
+  :target-path "target/%s"
+  :profiles {:uberjar {:aot :all}})
