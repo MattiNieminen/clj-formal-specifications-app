@@ -1,7 +1,7 @@
 (ns clj-formal-specifications-app.core
   (:require [clj-formal-specifications-app.routes :as routes]
-            [org.httpkit.server :refer [run-server]]))
+            [org.httpkit.server :as httpkit]))
 
 (defn -main
   []
-  (run-server routes/app {:port 5000}))
+  (httpkit/run-server routes/app {:port 5000}))
