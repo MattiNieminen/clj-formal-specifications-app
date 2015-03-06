@@ -1,6 +1,5 @@
 (ns clj-formal-specifications-app.core
-  (:require [clj-formal-specifications-app.spec :as spec]
-            [clj-formal-specifications-app.examples :as examples]
+  (:require [clj-formal-specifications-app.api :as api]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer :all]
@@ -8,34 +7,12 @@
             [ring.util.response :as resp]
             [org.httpkit.server :refer [run-server]]))
 
-(defn example-listing
-  []
-  {:body (map examples/example
-              (examples/files-as-strings examples/example-dir))})
-
-(defn example-file
-  [filename]
-  {:body {:contents (slurp (str examples/example-dir "/" filename))}})
-
-(defn compose
-  [spec]
-  (let [ns (spec/get-ns-name spec)]
-    {:body (do (remove-ns (symbol ns)) (load-string spec) ns)}))
-
-(defn execute-with-ns
-  [ns command]
-  {:body (str (binding [*ns* (find-ns (symbol ns))] (load-string command)))})
-
-(defn ns-data
-  [ns]
-  {:body (spec/ns-spec ns)})
-
 (defroutes api-routes
-  (GET "/api/examples" [] (example-listing))
-  (GET "/api/examples/:filename" [filename] (example-file filename))
-  (POST "/api/compose" [specification] (compose specification))
-  (POST "/api/execute" [ns command] (execute-with-ns ns command))
-  (GET "/api/namespace/:ns" [ns] (ns-data ns)))
+  (GET "/api/examples" [] (api/example-listing))
+  (GET "/api/examples/:filename" [filename] (api/example-file filename))
+  (POST "/api/compose" [specification] (api/compose specification))
+  (POST "/api/execute" [ns command] (api/execute-with-ns ns command))
+  (GET "/api/namespace/:ns" [ns] (api/ns-data ns)))
 
 (defn index
   [req]
