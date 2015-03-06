@@ -5,11 +5,11 @@
 (defn example-listing
   []
   {:body (map examples/example
-              (examples/files-as-strings examples/example-dir))})
+              (examples/files-in-classpath examples/example-dir))})
 
 (defn example-file
   [filename]
-  {:body {:contents (slurp (str examples/example-dir "/" filename))}})
+  {:body {:contents (slurp (examples/example-file filename))}})
 
 (defn compose
   [spec]
