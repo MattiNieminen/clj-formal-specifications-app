@@ -1,37 +1,21 @@
 (ns clj-formal-specifications-app.core
   (:require [clj-formal-specifications-app.spec :as spec]
+            [clj-formal-specifications-app.examples :as examples]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer :all]
             [ring.middleware.json :refer :all]
             [ring.util.response :as resp]
-            [org.httpkit.server :refer [run-server]]
-            [clojure.string :as str]))
-
-(def example-dir "resources/public/examples")
-
-(defn filename-as-text
-  [filename]
-  (str/capitalize
-   (str/replace (str/replace filename #"_" " ") #".clj" "")))
-
-(defn example
-  [path]
-  (let [filename (peek (str/split path #"/"))]
-    {:title (filename-as-text filename)
-     :filename filename}))
-
-(defn files-as-strings
-  [dir]
-  (rest (map str (file-seq (clojure.java.io/file dir)))))
+            [org.httpkit.server :refer [run-server]]))
 
 (defn example-listing
   []
-  {:body (map example (files-as-strings example-dir))})
+  {:body (map examples/example
+              (examples/files-as-strings examples/example-dir))})
 
 (defn example-file
   [filename]
-  {:body {:contents (slurp (str example-dir "/" filename))}})
+  {:body {:contents (slurp (str examples/example-dir "/" filename))}})
 
 (defn compose
   [spec]
