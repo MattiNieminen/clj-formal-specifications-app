@@ -182,11 +182,19 @@ var Editor = React.createClass({
 });
 
 var ExecutionBox = React.createClass({
-  actionExecuted: function(ns, data) {
+  actionExecuted: function(ns, command, data) {
     this.props.onActionExecuted(ns, data);
+
+    var state = this.state;
+    state.recentActions.unshift(command);
+    state.recentActions.splice(10);
+    this.setState(state);
   },
   setValue: function(value) {
     this.refs.executionBox.setValue(value);
+  },
+  getInitialState: function() {
+    return {recentActions: []};
   },
   render: function() {
     return (
@@ -195,6 +203,7 @@ var ExecutionBox = React.createClass({
             namespace={this.props.spec.namespace}
             onActionExecuted={this.actionExecuted}
             ref="executionBox" />
+        <RecentActionsBox data={this.state.recentActions} />
         <LatestResultBox data={this.props.spec.latestResult} />
         <DataBox data={this.props.spec.data} />
       </div>
@@ -203,8 +212,8 @@ var ExecutionBox = React.createClass({
 });
 
 var ActionBox = React.createClass({
-  actionExecuted: function(ns, data) {
-    this.props.onActionExecuted(ns, data);
+  actionExecuted: function(ns, command, data) {
+    this.props.onActionExecuted(ns, command, data);
   },
   setValue: function(value) {
     this.editor.setValue(value);
@@ -224,7 +233,7 @@ var ActionBox = React.createClass({
         };
 
         $.post("api/execute", requestObject, function(data) {
-          this.actionExecuted(requestObject.ns, data);
+          this.actionExecuted(requestObject.ns, requestObject.command, data);
         }.bind(this));
       }.bind(this),
       readOnly: false
@@ -237,6 +246,27 @@ var ActionBox = React.createClass({
       <div id="actionBox">
         <h2>Execute actions</h2>
         <div id="executionEditor" />
+      </div>
+    );
+  }
+});
+
+var RecentActionsBox = React.createClass({
+  render: function() {
+    var recentActions = this.props.data.map(function(recentAction, index) {
+      return (
+        <li key={index}>
+          {recentAction}
+        </li>
+      );
+    });
+
+    return (
+      <div id="recentActionsBox">
+        <h2>Recent actions</h2>
+        <ul>
+          {recentActions}
+        </ul>
       </div>
     );
   }
