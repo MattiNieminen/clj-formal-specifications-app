@@ -20,7 +20,7 @@ var SpecificationBox = React.createClass({
     this.refs.editor.setValue("");
     this.refs.editor.focus();
     this.replaceState({});
-    this.refs.executionBox.setValue("");
+    this.refs.executionBox.reset();
   },
   exampleClicked: function(contents) {
     this.refs.editor.setValue(contents);
@@ -200,6 +200,9 @@ var ExecutionBox = React.createClass({
   setValue: function(value) {
     this.refs.executionBox.setValue(value);
   },
+  reset: function() {
+    this.refs.executionBox.reset();
+  },
   getInitialState: function() {
     return {recentActions: []};
   },
@@ -221,11 +224,56 @@ var ExecutionBox = React.createClass({
 
 var ActionBox = React.createClass({
   executeAction: function() {
-    this.props.onExecuteAction(this.editor.getValue());
+    var editorValue = this.editor.getValue();
     this.setValue("");
+    var history = this.state.history;
+    history.push(editorValue);
+    this.setState({history: history, historyIndex: null});
+    this.props.onExecuteAction(editorValue);
   },
   setValue: function(value) {
     this.editor.setValue(value);
+  },
+  getPrevFromHistory: function() {
+    var index = this.state.historyIndex;
+
+    if(index === null) {
+      index = this.state.history.length-1;
+    }
+    else if(index !== 0) {
+      index--;
+    }
+
+    this.setState({historyIndex: index});
+    this.updateEditorFromHistory();
+  },
+  getNextFromHistory: function() {
+    var index = this.state.historyIndex;
+
+    if(index !== null && index < this.state.history.length-1) {
+      index++;
+    }
+    else {
+      index = null;
+    }
+
+    this.setState({historyIndex: index});
+    this.updateEditorFromHistory();
+  },
+  updateEditorFromHistory: function() {
+    if(this.state.historyIndex !== null) {
+      this.setValue(this.state.history[this.state.historyIndex]);
+    }
+    else {
+      this.setValue("");
+    }
+  },
+  reset: function() {
+    this.setValue("");
+    this.replaceState(this.getInitialState());
+  },
+  getInitialState: function() {
+    return {history: [], historyIndex: null};
   },
   componentDidMount: function() {
     var editor = ace.edit("executionEditor");
@@ -237,6 +285,24 @@ var ActionBox = React.createClass({
       bindKey: 'enter',
       exec: function(editor) {
         this.executeAction();
+      }.bind(this),
+      readOnly: false
+    });
+
+    editor.commands.addCommand({
+      name: 'prevCommand',
+      bindKey: 'up',
+      exec: function(editor) {
+        this.getPrevFromHistory();
+      }.bind(this),
+      readOnly: false
+    });
+
+    editor.commands.addCommand({
+      name: 'nextCommand',
+      bindKey: 'down',
+      exec: function(editor) {
+        this.getNextFromHistory();
       }.bind(this),
       readOnly: false
     });
