@@ -222,6 +222,7 @@ var ExecutionBox = React.createClass({
 var ActionBox = React.createClass({
   executeAction: function() {
     this.props.onExecuteAction(this.editor.getValue());
+    this.setValue("");
   },
   setValue: function(value) {
     this.editor.setValue(value);
