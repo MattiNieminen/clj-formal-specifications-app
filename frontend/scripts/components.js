@@ -182,20 +182,8 @@ var Editor = React.createClass({
 });
 
 var ExecutionBox = React.createClass({
-  executeAction: function(command) {
-    var requestObject = {
-      ns: this.props.spec.namespace,
-      command: command
-    };
-
-    $.post("api/execute", requestObject, function(data) {
-      this.props.onActionExecuted(this.props.spec.namespace, data);
-
-      var state = this.state;
-      state.recentActions.unshift(command);
-      state.recentActions.splice(10);
-      this.setState(state);
-    }.bind(this));
+  actionExecuted: function(namespace, data) {
+    this.props.onActionExecuted(namespace, data);
   },
   setValue: function(value) {
     this.refs.executionBox.setValue(value);
@@ -203,18 +191,13 @@ var ExecutionBox = React.createClass({
   reset: function() {
     this.refs.executionBox.reset();
   },
-  getInitialState: function() {
-    return {recentActions: []};
-  },
   render: function() {
     return (
       <div id="executionBox">
         <ActionBox
-            onExecuteAction={this.executeAction}
+            onActionExecuted={this.actionExecuted}
+            namespace={this.props.spec.namespace}
             ref="executionBox" />
-        <RecentActionsBox
-            data={this.state.recentActions}
-            onRecentActionClicked={this.executeAction}/>
         <LatestResultBox data={this.props.spec.latestResult} />
         <DataBox data={this.props.spec.data} />
       </div>
@@ -224,12 +207,18 @@ var ExecutionBox = React.createClass({
 
 var ActionBox = React.createClass({
   executeAction: function() {
-    var editorValue = this.editor.getValue();
-    this.setValue("");
-    var history = this.state.history;
-    history.push(editorValue);
-    this.setState({history: history, historyIndex: null});
-    this.props.onExecuteAction(editorValue);
+    var requestObject = {
+      ns: this.props.namespace,
+      command: this.editor.getValue()
+    };
+
+    $.post("api/execute", requestObject, function(data) {
+      this.props.onActionExecuted(requestObject.ns, data);
+      var history = this.state.history;
+      history.push(requestObject.command);
+      this.setState({history: history, historyIndex: null});
+      this.setValue("");
+    }.bind(this));
   },
   setValue: function(value) {
     this.editor.setValue(value);
@@ -314,36 +303,6 @@ var ActionBox = React.createClass({
       <div id="actionBox">
         <h2>Execute actions</h2>
         <div id="executionEditor" />
-      </div>
-    );
-  }
-});
-
-var RecentActionsBox = React.createClass({
-  recentActionClicked: function(recentAction) {
-    this.props.onRecentActionClicked(recentAction);
-  },
-  render: function() {
-    var recentActions = this.props.data.map(function(recentAction, index) {
-      var click = function() {
-        this.recentActionClicked(recentAction);
-      }.bind(this);
-
-      return (
-        <li key={index}>
-          <a href="#" onClick={click}>
-            {recentAction}
-          </a>
-        </li>
-      );
-    }, this);
-
-    return (
-      <div id="recentActionsBox">
-        <h2>Recent actions</h2>
-        <ul>
-          {recentActions}
-        </ul>
       </div>
     );
   }
