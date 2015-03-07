@@ -182,13 +182,20 @@ var Editor = React.createClass({
 });
 
 var ExecutionBox = React.createClass({
-  actionExecuted: function(ns, command, data) {
-    this.props.onActionExecuted(ns, data);
+  executeAction: function(command) {
+    var requestObject = {
+      ns: this.props.spec.namespace,
+      command: command
+    };
 
-    var state = this.state;
-    state.recentActions.unshift(command);
-    state.recentActions.splice(10);
-    this.setState(state);
+    $.post("api/execute", requestObject, function(data) {
+      this.props.onActionExecuted(this.props.spec.namespace, data);
+
+      var state = this.state;
+      state.recentActions.unshift(command);
+      state.recentActions.splice(10);
+      this.setState(state);
+    }.bind(this));
   },
   setValue: function(value) {
     this.refs.executionBox.setValue(value);
@@ -200,10 +207,11 @@ var ExecutionBox = React.createClass({
     return (
       <div id="executionBox">
         <ActionBox
-            namespace={this.props.spec.namespace}
-            onActionExecuted={this.actionExecuted}
+            onExecuteAction={this.executeAction}
             ref="executionBox" />
-        <RecentActionsBox data={this.state.recentActions} />
+        <RecentActionsBox
+            data={this.state.recentActions}
+            onRecentActionClicked={this.executeAction}/>
         <LatestResultBox data={this.props.spec.latestResult} />
         <DataBox data={this.props.spec.data} />
       </div>
@@ -212,8 +220,8 @@ var ExecutionBox = React.createClass({
 });
 
 var ActionBox = React.createClass({
-  actionExecuted: function(ns, command, data) {
-    this.props.onActionExecuted(ns, command, data);
+  executeAction: function() {
+    this.props.onExecuteAction(this.editor.getValue());
   },
   setValue: function(value) {
     this.editor.setValue(value);
@@ -227,14 +235,7 @@ var ActionBox = React.createClass({
       name: 'executeCommand',
       bindKey: 'enter',
       exec: function(editor) {
-        var requestObject = {
-          ns: this.props.namespace,
-          command: editor.getValue()
-        };
-
-        $.post("api/execute", requestObject, function(data) {
-          this.actionExecuted(requestObject.ns, requestObject.command, data);
-        }.bind(this));
+        this.executeAction();
       }.bind(this),
       readOnly: false
     });
@@ -252,14 +253,23 @@ var ActionBox = React.createClass({
 });
 
 var RecentActionsBox = React.createClass({
+  recentActionClicked: function(recentAction) {
+    this.props.onRecentActionClicked(recentAction);
+  },
   render: function() {
     var recentActions = this.props.data.map(function(recentAction, index) {
+      var click = function() {
+        this.recentActionClicked(recentAction);
+      }.bind(this);
+
       return (
         <li key={index}>
-          {recentAction}
+          <a href="#" onClick={click}>
+            {recentAction}
+          </a>
         </li>
       );
-    });
+    }, this);
 
     return (
       <div id="recentActionsBox">
