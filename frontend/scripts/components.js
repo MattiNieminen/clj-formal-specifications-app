@@ -171,6 +171,7 @@ var Editor = React.createClass({
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/clojure");
+    editor.setShowPrintMargin(false);
     editor.focus();
     this.editor = editor;
   },
