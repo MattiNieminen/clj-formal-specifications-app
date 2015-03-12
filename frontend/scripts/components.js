@@ -169,7 +169,7 @@ var Editor = React.createClass({
   },
   componentDidMount: function() {
     var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/clouds_midnight");
+    editor.setTheme("ace/theme/clj-formal-specifications-app");
     editor.getSession().setMode("ace/mode/clojure");
     editor.setShowPrintMargin(false);
     editor.focus();
@@ -267,7 +267,7 @@ var ActionBox = React.createClass({
   },
   componentDidMount: function() {
     var editor = ace.edit("executionEditor");
-    editor.setTheme("ace/theme/clouds_midnight");
+    editor.setTheme("ace/theme/clj-formal-specifications-app");
     editor.getSession().setMode("ace/mode/clojure");
 
     editor.commands.addCommand({

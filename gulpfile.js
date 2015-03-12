@@ -11,7 +11,7 @@ var paths = {
   scripts: ['bower_components/react/react-with-addons.js',
             'bower_components/ace-builds/src/ace.js',
             'bower_components/ace-builds/src/mode-clojure.js',
-            'bower_components/ace-builds/src/theme-clouds_midnight.js',
+            'frontend/scripts/ace-theme.js',
             'bower_components/jquery/dist/jquery.js'],
   jsx: 'frontend/scripts/components.js',
   examples: ['https://raw.githubusercontent.com/MattiNieminen/clj-formal-specifications/master/src/clj_formal_specifications/examples/coin.clj',
