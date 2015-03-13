@@ -65,7 +65,7 @@ color:#2BB7D9;\
 color:#F13288;\
 }\
 .ace-clj-formal-specifications-app .ace_constant {\
-color:#68FFCC;\
+color:#7cfff4;\
 }\
 .ace-clj-formal-specifications-app .ace_constant.ace_language {\
 color:#FFC032;\
