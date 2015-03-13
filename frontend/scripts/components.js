@@ -312,7 +312,7 @@ var ActionBox = React.createClass({
 var LatestResultBox = React.createClass({
   render: function() {
     var latestData;
-    
+
     if(typeof this.props.data !== "undefined") {
       latestData = <p className="latestData">{this.props.data}</p>;
     }
@@ -354,7 +354,7 @@ var DataItem = React.createClass({
   },
   render: function() {
     return (
-      <li>
+      <li className="dataItemContainer">
         <a href="#" onClick={this.toggleContent} className="dataItemButton">
           {this.props.data.name}
         </a>
