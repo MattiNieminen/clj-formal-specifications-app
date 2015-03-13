@@ -37,12 +37,13 @@ ul {
   list-style-type: none;
 }
 
-#content {
+#reactContainer {
   &:extend(.fullscreen);
 }
 
-#specificationBox {
+#content {
   &:extend(.fullscreen);
+  background-color: @executionBoxBg;
 }
 
 #toolbar {
@@ -66,6 +67,13 @@ ul {
   display: block;
 }
 
+#specificationBox {
+  position: absolute;
+  top: 43px;
+  bottom: 0;
+  width: 100%;
+}
+
 #editor {
   height: 100%;
   width: 72%;
@@ -75,7 +83,7 @@ ul {
   height: 100%;
   width: 28%;
   float: left;
-  background-color: @executionBoxBg;
+
 }
 
 #executionBox h2 {

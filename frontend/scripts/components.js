@@ -37,17 +37,19 @@ var SpecificationBox = React.createClass({
   },
   render: function() {
     return (
-      <div id="specificationBox">
+      <div id="content">
         <Toolbar
             onComposeClicked={this.composeClicked}
             onResetClicked={this.resetClicked}
             onExportClicked={this.exportClicked}
             onExampleClicked={this.exampleClicked} />
-        <ExecutionBox
-            spec={this.state}
-            onActionExecuted={this.updateState}
-            ref="executionBox" />
-        <Editor ref="editor"/>
+          <div id="specificationBox">
+            <ExecutionBox
+                spec={this.state}
+                onActionExecuted={this.updateState}
+                ref="executionBox" />
+            <Editor ref="editor"/>
+          </div>
       </div>
     );
   }
@@ -368,5 +370,5 @@ var DataItem = React.createClass({
 
 React.render(
   <SpecificationBox />,
-  document.getElementById('content')
+  document.getElementById('reactContainer')
 );
