@@ -314,7 +314,7 @@ var LatestResultBox = React.createClass({
     return (
       <div id="latestResultBox">
         <h2>Latest result</h2>
-        <p>{this.props.data}</p>
+        <p className="latestData">{this.props.data}</p>
       </div>
     );
   }
@@ -350,7 +350,7 @@ var DataItem = React.createClass({
   render: function() {
     return (
       <li>
-        <a href="#" onClick={this.toggleContent}>
+        <a href="#" onClick={this.toggleContent} className="dataItemButton">
           {this.props.data.name}
         </a>
         <div className="dataItemContent">
