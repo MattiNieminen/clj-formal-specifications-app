@@ -311,10 +311,15 @@ var ActionBox = React.createClass({
 
 var LatestResultBox = React.createClass({
   render: function() {
+    var latestData;
+    
+    if(typeof this.props.data !== "undefined") {
+      latestData = <p className="latestData">{this.props.data}</p>;
+    }
     return (
       <div id="latestResultBox">
         <h2>Latest result</h2>
-        <p className="latestData">{this.props.data}</p>
+        {latestData}
       </div>
     );
   }
