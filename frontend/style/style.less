@@ -75,11 +75,45 @@ ul {
   height: 100%;
   width: 45%;
   float: right;
-  background-color: red;
+  background-color: @executionBoxBg;
+}
+
+#executionBox h2 {
+  margin: 5px 0;
+  color: @blue;
+  font-size: @smallFontSize;
+  font-weight: normal;
+}
+
+.latestData {
+  padding: 8px;
+  color: @executionBoxBg;
+  font-size: @mediumFontSize;
+  background-color: @green;
+}
+
+.dataItemContainer {
+  margin: 10px 0;
+}
+
+.dataItemButton {
+  color: #fff;
+  font-size: @smallFontSize;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.dataItemButton:hover {
+  color: @turquoise;
 }
 
 .dataItemContent {
+  margin: 10px 0;
+  width: 50%;
+  padding: 8px;
   display: none;
+  color: #fff;
+  background-color: @darkBlue;
 }
 
 #executionEditor {
