@@ -46,15 +46,27 @@ ul {
   background-color: @executionBoxBg;
 }
 
-#toolbar {
-  background-color: blue;
+#toolbar ul {
+  float: right;
+}
+
+#toolbar a {
+  display: block;
+  padding: 27px 0 30px 20px;
+  color: #fff;
+  font-size: @smallFontSize;
+  text-decoration: none;
 }
 
 #toolbar ul li {
+  width: 200px;
   display: inline-block;
-  padding: 12px 7px;
   z-index: 100000;
-  background-color: grey;
+  transition: background-color 0.3s ease;
+}
+
+#toolbar ul li:hover {
+  background-color: @blueGray;
 }
 
 #toolbar ul li ul {
@@ -65,11 +77,16 @@ ul {
 #toolbar ul li ul li {
   position: relative;
   display: block;
+  background-color: @blueGray;
+}
+
+#toolbar ul li ul li:hover {
+  background-color: @darkBlue;
 }
 
 #specificationBox {
   position: absolute;
-  top: 43px;
+  top: 75px;
   bottom: 0;
   width: 100%;
 }
