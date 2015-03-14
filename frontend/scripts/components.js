@@ -264,6 +264,10 @@ var ActionBox = React.createClass({
     this.setValue("");
     this.replaceState(this.getInitialState());
   },
+  openActionHelperBox: function() {
+    $(this.getDOMNode()).children("#actionHelperBoxContainer")
+        .slideToggle(100);
+  },
   getInitialState: function() {
     return {history: [], historyIndex: null};
   },
@@ -306,7 +310,21 @@ var ActionBox = React.createClass({
       <div id="actionBox">
         <h2>Execute actions</h2>
         <div id="executionEditor" />
+        <a href="#" onClick={this.openActionHelperBox}>
+          I need help executing actions!
+        </a>
+        <div id="actionHelperBoxContainer">
+          <ActionHelperBox />
+        </div>
       </div>
+    );
+  }
+});
+
+var ActionHelperBox = React.createClass({
+  render: function() {
+    return (
+      <p>This is a placeholder</p>
     );
   }
 });
