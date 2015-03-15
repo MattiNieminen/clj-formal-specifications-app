@@ -363,13 +363,11 @@ var OperationSelector = React.createClass({
       <div>
         <label>Operation</label>
         <input type="radio" name="operation" value="execute"
-            onChange={this.operationChange} defaultChecked={true}>
-          execute
-        </input>
+            onChange={this.operationChange} defaultChecked={true} />
+        execute
         <input type="radio" name="operation" value="execute-init"
-            onChange={this.operationChange}>
-          execute-init
-        </input>
+            onChange={this.operationChange} />
+        execute-init
       </div>
     );
   }
