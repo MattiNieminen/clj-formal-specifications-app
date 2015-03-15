@@ -199,7 +199,7 @@ var ExecutionBox = React.createClass({
       <div id="executionBox">
         <ActionBox
             onActionExecuted={this.actionExecuted}
-            namespace={this.props.spec.namespace}
+            spec={this.props.spec}
             ref="executionBox" />
         <LatestResultBox data={this.props.spec.latestResult} />
         <DataBox data={this.props.spec.data} />
@@ -211,7 +211,7 @@ var ExecutionBox = React.createClass({
 var ActionBox = React.createClass({
   executeAction: function() {
     var requestObject = {
-      ns: this.props.namespace,
+      ns: this.props.spec.namespace,
       command: this.editor.getValue()
     };
 
@@ -265,7 +265,7 @@ var ActionBox = React.createClass({
     this.replaceState(this.getInitialState());
   },
   openActionHelperBox: function() {
-    $(this.getDOMNode()).children("#actionHelperBoxContainer")
+    $(this.getDOMNode()).children("#actionHelperForm")
         .slideToggle(100);
   },
   getInitialState: function() {
@@ -313,18 +313,154 @@ var ActionBox = React.createClass({
         <a href="#" onClick={this.openActionHelperBox}>
           I need help executing actions!
         </a>
-        <div id="actionHelperBoxContainer">
-          <ActionHelperBox />
-        </div>
+        <ActionHelperBox spec={this.props.spec} />
       </div>
     );
   }
 });
 
 var ActionHelperBox = React.createClass({
+  changeOperation: function(operation) {
+    if(operation === "execute") {
+      $(this.getDOMNode()).children("#refOptions").slideUp(100);
+    }
+    else if(operation === "execute-init") {
+      $(this.getDOMNode()).children("#refOptions").slideDown(100);
+    }
+  },
+  changeAction: function(action) {
+    $(this.getDOMNode()).children("#arglist").slideUp(100, function() {
+      this.setState({arglist: action.arglist});
+      $(this.getDOMNode()).children("#arglist").slideDown(100);
+    }.bind(this));
+  },
+  getInitialState: function() {
+    return {};
+  },
   render: function() {
     return (
-      <p>This is a placeholder</p>
+      <div id="actionHelperForm">
+        <OperationSelector
+            onOperationChange={this.changeOperation} />
+        <ActionSelector
+            actions={this.props.spec.actions}
+            onActionChange={this.changeAction} />
+        <ArgumentList
+            arglist={this.state.arglist}
+            data={this.props.spec.data} />
+        <RefOptions operation={this.state.operation} />
+      </div>
+    );
+  }
+});
+
+var OperationSelector = React.createClass({
+  operationChange: function(event) {
+    this.props.onOperationChange(event.target.value);
+  },
+  render: function() {
+    return (
+      <div>
+        <label>Operation</label>
+        <input type="radio" name="operation" value="execute"
+            onChange={this.operationChange} defaultChecked={true}>
+          execute
+        </input>
+        <input type="radio" name="operation" value="execute-init"
+            onChange={this.operationChange}>
+          execute-init
+        </input>
+      </div>
+    );
+  }
+});
+
+var ActionSelector = React.createClass({
+  actionChange: function(event) {
+    var chosenAction = {arglist: []};
+
+    for(var i = 0; i < this.props.actions.length; i++) {
+      var action = this.props.actions[i];
+
+      if(event.target.value === action.name) {
+        chosenAction = action;
+        break;
+      }
+    }
+
+    this.props.onActionChange(chosenAction);
+  },
+  render: function() {
+    var actionOptions = [];
+
+    if(typeof this.props.actions !== 'undefined') {
+      actionOptions = this.props.actions.map(function(action) {
+        return (
+          <option key={action.name} value={action.name}>{action.name}</option>
+        );
+      });
+    }
+
+    return (
+      <div className="actionHelperFormRow">
+        <label>Action</label>
+        <select onChange={this.actionChange}>
+          <option>Select action...</option>
+          {actionOptions}
+        </select>
+      </div>
+    );
+  }
+});
+
+var ArgumentList = React.createClass({
+  render: function() {
+    var args = [];
+
+    if(typeof this.props.arglist !== "undefined") {
+      args = this.props.arglist.map(function(arg) {
+        var options = this.props.data.map(function(dataItem) {
+          return [
+            <option value={dataItem.name} />,
+            <option value={"@" + dataItem.name} />,
+            <option value={dataItem.contents} />
+          ];
+        });
+
+      return (
+        <div key={arg + "_div"} className="actionHelperFormRow">
+          <label>{arg}</label>
+          <input list="dataItems" name="dataItems" />
+          <datalist id="dataItems">
+            {options}
+          </datalist>
+        </div>
+        );
+      }.bind(this));
+    }
+
+    return (
+      <div id="arglist">
+        {args}
+      </div>
+    );
+  }
+});
+
+var RefOptions = React.createClass({
+  render: function() {
+    return (
+      <div id="refOptions">
+        <div className="actionHelperFormRow">
+          <label>Ref name</label>
+          <input type="text" name="refName" />
+        </div>
+
+        <div className="actionHelperFormRow">
+          <label>Validator function</label>
+          <input type="text" name="validator" />
+        </div>
+      </div>
     );
   }
 });
