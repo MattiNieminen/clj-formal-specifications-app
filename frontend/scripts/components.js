@@ -360,14 +360,17 @@ var OperationSelector = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <div className="actionHelperFormBlock">
         <label>Operation</label>
-        <input type="radio" name="operation" value="execute"
-            onChange={this.operationChange} defaultChecked={true} />
-        execute
-        <input type="radio" name="operation" value="execute-init"
-            onChange={this.operationChange} />
-        execute-init
+        <div className="actionHelperFormInput">
+          <input type="radio" name="operation" value="execute"
+              onChange={this.operationChange} defaultChecked={true} />
+          execute
+          <br />
+          <input type="radio" name="operation" value="execute-init"
+              onChange={this.operationChange} />
+          execute-init
+        </div>
       </div>
     );
   }
@@ -400,12 +403,14 @@ var ActionSelector = React.createClass({
     }
 
     return (
-      <div>
+      <div className="actionHelperFormBlock">
         <label>Action</label>
-        <select onChange={this.actionChange}>
-          <option>Select action...</option>
-          {actionOptions}
-        </select>
+        <div className="actionHelperFormInput">
+          <select onChange={this.actionChange}>
+            <option>Select action...</option>
+            {actionOptions}
+          </select>
+        </div>
       </div>
     );
   }
@@ -428,17 +433,19 @@ var ArgumentList = React.createClass({
       return (
         <div key={arg + "_div"}>
           <label>{arg}</label>
-          <input list="dataItems" name="dataItems" />
-          <datalist id="dataItems">
-            {options}
-          </datalist>
+          <div className="actionHelperFormInput">
+            <input list="dataItems" name="dataItems" />
+            <datalist id="dataItems">
+              {options}
+            </datalist>
+          </div>
         </div>
         );
       }.bind(this));
     }
 
     return (
-      <div id="arglist">
+      <div id="arglist" className="actionHelperFormBlock">
         {args}
       </div>
     );
@@ -448,14 +455,14 @@ var ArgumentList = React.createClass({
 var RefOptions = React.createClass({
   render: function() {
     return (
-      <div id="refOptions">
-        <div>
-          <label>Ref name</label>
+      <div id="refOptions" className="actionHelperFormBlock">
+        <label>Ref name</label>
+        <div className="actionHelperFormInput">
           <input type="text" name="refName" />
         </div>
 
-        <div>
-          <label>Validator function</label>
+        <label>Validator function</label>
+        <div className="actionHelperFormInput">
           <input type="text" name="validator" />
         </div>
       </div>
