@@ -402,7 +402,7 @@ var ActionSelector = React.createClass({
     }
 
     return (
-      <div className="actionHelperFormRow">
+      <div>
         <label>Action</label>
         <select onChange={this.actionChange}>
           <option>Select action...</option>
@@ -428,7 +428,7 @@ var ArgumentList = React.createClass({
         });
 
       return (
-        <div key={arg + "_div"} className="actionHelperFormRow">
+        <div key={arg + "_div"}>
           <label>{arg}</label>
           <input list="dataItems" name="dataItems" />
           <datalist id="dataItems">
@@ -451,12 +451,12 @@ var RefOptions = React.createClass({
   render: function() {
     return (
       <div id="refOptions">
-        <div className="actionHelperFormRow">
+        <div>
           <label>Ref name</label>
           <input type="text" name="refName" />
         </div>
 
-        <div className="actionHelperFormRow">
+        <div>
           <label>Validator function</label>
           <input type="text" name="validator" />
         </div>
