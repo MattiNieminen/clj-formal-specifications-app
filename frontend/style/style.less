@@ -11,6 +11,7 @@
 @yellow: #FFFFA7;
 @grey: #ADC7CC;
 
+@verySmallFontSize: 14px;
 @smallFontSize: 17px;
 @mediumFontSize: 22px;
 @largeFontSize: 30px;
@@ -99,18 +100,20 @@ ul {
 #executionBox {
   height: 100%;
   width: 28%;
+  padding: 0 25px;
   float: left;
-
+  box-sizing: border-box;
 }
 
 #executionBox h2 {
-  margin: 5px 0;
+  margin: 10px 0;
   color: @blue;
   font-size: @smallFontSize;
   font-weight: normal;
 }
 
 .latestData {
+  margin: 0 0 0 25px;
   padding: 8px;
   color: @executionBoxBg;
   font-size: @mediumFontSize;
@@ -122,6 +125,7 @@ ul {
 }
 
 .dataItemButton {
+  margin: 0 0 0 25px;
   color: #fff;
   font-size: @smallFontSize;
   text-decoration: none;
@@ -133,7 +137,7 @@ ul {
 }
 
 .dataItemContent {
-  margin: 10px 0;
+  margin: 0 0 0 25px;
   width: 50%;
   padding: 8px;
   display: none;
@@ -147,9 +151,23 @@ ul {
 }
 
 #actionHelperForm {
-  padding: 5px 10px;
+  margin: 0 0 0 25px;
+  padding: 8px;
   display: none;
   background-color: @grey;
+}
+
+#actionHelperLink {
+  margin: 10px 0;
+  display: block;
+  text-align: right;
+  font-size: @verySmallFontSize;
+  color: #fff;
+  text-decoration: none;
+}
+
+#actionHelperLink:hover {
+  color: @turquoise;
 }
 
 .actionHelperFormBlock {
@@ -157,13 +175,16 @@ ul {
 }
 
 .actionHelperFormBlock label {
-  width: 30%;
+  width: 50%;
+  padding: 0 25px 0 0;
   display: inline-block;
   vertical-align: top;
+  box-sizing: border-box;
 }
 
 .actionHelperFormInput {
-  width: 70%;
+  width: 50%;
+  margin: 0 0 5px 0;
   display: inline-block;
   vertical-align: top;
 }

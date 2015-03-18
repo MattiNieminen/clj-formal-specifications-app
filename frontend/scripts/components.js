@@ -313,7 +313,7 @@ var ActionBox = React.createClass({
       <div id="actionBox">
         <h2>Execute actions</h2>
         <div id="executionEditor" />
-        <a href="#" onClick={this.openActionHelperBox}>
+        <a href="#" id="actionHelperLink" onClick={this.openActionHelperBox}>
           I need help executing actions!
         </a>
         <ActionHelperBox
