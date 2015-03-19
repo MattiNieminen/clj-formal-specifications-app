@@ -6,11 +6,11 @@
 
 (defn action-entry?
   [map-entry]
-  (:action (meta (val map-entry))))
+  (contains? (meta (val map-entry)) :action))
 
 (defn spec-ref-entry?
   [map-entry]
-  (:spec-ref (meta (var-get (val map-entry)))))
+  (contains? (meta (var-get (val map-entry))) :spec-ref))
 
 (defn conj-actions
   [actions action-entry]
