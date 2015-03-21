@@ -12,7 +12,7 @@
 
 (defn spec-ref-entry?
   [map-entry]
-  (contains? (meta (var-get (val map-entry))) :spec-ref))
+  (contains? (meta (val map-entry)) :spec-ref))
 
 (defn conj-actions
   [actions action-entry]
