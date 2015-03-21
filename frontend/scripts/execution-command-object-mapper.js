@@ -1,4 +1,4 @@
-var executionCommandObjectMapper = executionCommandObjectMapper = {};
+var executionCommandObjectMapper = executionCommandObjectMapper || {};
 
 executionCommandObjectMapper.toExecutionCommand = function(commandObj) {
   var executionCommand = "";
