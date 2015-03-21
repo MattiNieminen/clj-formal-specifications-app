@@ -19,7 +19,7 @@ var SpecificationBox = React.createClass({
   resetClicked: function() {
     this.refs.editor.setValue("");
     this.refs.editor.focus();
-    this.replaceState({});
+    this.replaceState(this.getInitialState());
     this.refs.executionBox.reset();
   },
   exampleClicked: function(contents) {
