@@ -161,7 +161,16 @@ ul {
   padding: 8px;
   color: @executionBoxBg;
   font-size: @mediumFontSize;
+}
+
+.latestDataSuccess {
+  &:extend(.latestData);
   background-color: @green;
+}
+
+.latestDataFailure {
+  &:extend(.latestData);
+  background-color: @red;
 }
 
 .dataItemContainer {

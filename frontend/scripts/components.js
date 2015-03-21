@@ -13,7 +13,7 @@ var SpecificationBox = React.createClass({
     var spec = this.refs.editor.getValue();
 
     $.post("api/compose", {specification: spec}, function(ns) {
-      this.updateState(ns);
+      this.updateState(ns, {});
     }.bind(this));
   },
   resetClicked: function() {
@@ -33,7 +33,7 @@ var SpecificationBox = React.createClass({
     }.bind(this));
   },
   getInitialState: function() {
-    return {};
+    return {latestResult: {}};
   },
   render: function() {
     return (
@@ -201,7 +201,9 @@ var ExecutionBox = React.createClass({
             onActionExecuted={this.actionExecuted}
             spec={this.props.spec}
             ref="executionBox" />
-        <LatestResultBox data={this.props.spec.latestResult} />
+        <LatestResultBox
+            data={this.props.spec.latestResult.data}
+            success={this.props.spec.latestResult.success} />
         <DataBox data={this.props.spec.data} />
       </div>
     );
@@ -215,8 +217,16 @@ var ActionBox = React.createClass({
       command: this.editor.getValue()
     };
 
-    $.post("api/execute", requestObject, function(data) {
-      this.props.onActionExecuted(requestObject.ns, data);
+    var jqxhr = $.post("api/execute", requestObject)
+    .done(function(data) {
+      this.props.onActionExecuted(requestObject.ns,
+          {success: true, data: data});
+    }.bind(this))
+    .fail(function(obj) {
+      this.props.onActionExecuted(requestObject.ns,
+          {success: false, data: obj.responseText});
+    }.bind(this))
+    .always(function() {
       var history = this.state.history;
       history.push(requestObject.command);
       this.setState({history: history, historyIndex: null});
@@ -539,8 +549,11 @@ var LatestResultBox = React.createClass({
   render: function() {
     var latestData;
 
-    if(typeof this.props.data !== "undefined") {
-      latestData = <p className="latestData">{this.props.data}</p>;
+    if(this.props.success === true) {
+      latestData = <p className="latestDataSuccess">{this.props.data}</p>;
+    }
+    else if(this.props.success === false) {
+      latestData = <p className="latestDataFailure">{this.props.data}</p>;
     }
     return (
       <div id="latestResultBox">
