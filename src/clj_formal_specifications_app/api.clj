@@ -18,7 +18,9 @@
 
 (defn execute-with-ns
   [ns command]
-  {:body (str (binding [*ns* (find-ns (symbol ns))] (load-string command)))})
+  (try
+    {:body (str (binding [*ns* (find-ns (symbol ns))] (load-string command)))}
+    (catch Exception e {:body (.getMessage e) :status 400})))
 
 (defn ns-data
   [ns]
