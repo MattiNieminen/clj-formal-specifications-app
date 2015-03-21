@@ -11,16 +11,22 @@
   [filename]
   {:body {:contents (slurp (examples/example-file filename))}})
 
+(defn bad-request
+  [e]
+  {:body (.getMessage e) :status 400})
+
 (defn compose
   [spec]
   (let [ns (spec/get-ns-name spec)]
-    {:body (do (remove-ns (symbol ns)) (load-string spec) ns)}))
+    (try
+      {:body (do (remove-ns (symbol ns)) (load-string spec) ns)}
+      (catch Exception e (bad-request e)))))
 
 (defn execute-with-ns
   [ns command]
   (try
     {:body (str (binding [*ns* (find-ns (symbol ns))] (load-string command)))}
-    (catch Exception e {:body (.getMessage e) :status 400})))
+    (catch Exception e (bad-request e))))
 
 (defn ns-data
   [ns]
