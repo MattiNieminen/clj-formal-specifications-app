@@ -8,10 +8,10 @@ executionCommandObjectMapper.toExecutionCommand = function(commandObj) {
   var argsAsString = executionCommandObjectMapper.getArgsAsString(commandObj);
 
   if(commandObj.operation === "execute") {
-    executionCommand = "(fspec/execute (" + actionName + argsAsString + "))";
+    executionCommand = "(execute (" + actionName + argsAsString + "))";
   }
   else if(commandObj.operation === "execute-init") {
-    executionCommand = "(fspec/execute-init " + refName +
+    executionCommand = "(execute-init " + refName +
       " (" + actionName + argsAsString + ")";
 
     if(validator !== null) {
