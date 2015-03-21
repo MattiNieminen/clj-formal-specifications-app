@@ -1,11 +1,11 @@
-var executionCommandObjectMapper = executionCommandObjectMapper || {};
+var utils = utils || {};
 
-executionCommandObjectMapper.toExecutionCommand = function(commandObj) {
+utils.toExecutionCommand = function(commandObj) {
   var executionCommand = "";
   var actionName = commandObj.action.name || "<<action-name>>";
   var refName = commandObj.refName || "<<ref-name>>";
   var validator = commandObj.validator || null;
-  var argsAsString = executionCommandObjectMapper.getArgsAsString(commandObj);
+  var argsAsString = utils.getArgsAsString(commandObj);
 
   if(commandObj.operation === "execute") {
     executionCommand = "(execute (" + actionName + argsAsString + "))";
@@ -25,7 +25,7 @@ executionCommandObjectMapper.toExecutionCommand = function(commandObj) {
   return executionCommand;
 }
 
-executionCommandObjectMapper.getArgsAsString = function(commandObj) {
+utils.getArgsAsString = function(commandObj) {
   var argsAsString = "";
 
   for(var j = 0; j < commandObj.action.arglist.length; j++) {

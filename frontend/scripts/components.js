@@ -279,7 +279,7 @@ var ActionBox = React.createClass({
         .slideToggle(100);
   },
   updateEditorFromObject: function(commandObj) {
-    this.setValue(executionCommandObjectMapper.toExecutionCommand(commandObj));
+    this.setValue(utils.toExecutionCommand(commandObj));
   },
   getInitialState: function() {
     return {history: [], historyIndex: null};

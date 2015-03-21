@@ -13,7 +13,7 @@ var paths = {
             'bower_components/ace-builds/src/mode-clojure.js',
             'bower_components/jquery/dist/jquery.js',
             'frontend/scripts/ace-theme.js',
-            'frontend/scripts/execution-command-object-mapper.js'],
+            'frontend/scripts/utils.js'],
   jsx: 'frontend/scripts/components.js',
   examples: ['https://raw.githubusercontent.com/MattiNieminen/clj-formal-specifications/master/src/clj_formal_specifications/examples/coin.clj',
              'https://raw.githubusercontent.com/MattiNieminen/clj-formal-specifications/master/src/clj_formal_specifications/examples/simple_account.clj',
