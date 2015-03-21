@@ -10,7 +10,8 @@
 
 (defn example-entry?
   [entry]
-  (re-matches (re-pattern (str example-dir ".*.clj")) (.getName entry)))
+  (boolean (re-matches (re-pattern (str example-dir ".*.clj"))
+                       (.getName entry))))
 
 ; Getting a list of files named public/examples/something.clj is quite a task.
 
