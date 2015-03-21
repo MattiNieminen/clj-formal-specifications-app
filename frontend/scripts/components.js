@@ -224,7 +224,7 @@ var ActionBox = React.createClass({
     }.bind(this))
     .fail(function(obj) {
       this.props.onActionExecuted(requestObject.ns,
-          {success: false, data: obj.responseText});
+          {success: false, data: utils.formatError(obj.responseText)});
     }.bind(this))
     .always(function() {
       var history = this.state.history;

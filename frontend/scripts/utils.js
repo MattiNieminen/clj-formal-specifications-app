@@ -45,3 +45,8 @@ utils.getArgsAsString = function(commandObj) {
 
   return argsAsString;
 }
+
+utils.formatError = function(errorMsg) {
+  return errorMsg.substring(errorMsg.indexOf(": ") + 2)
+      .split(", compiling")[0] + ".";
+}
