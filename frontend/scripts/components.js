@@ -32,6 +32,8 @@ var SpecificationBox = React.createClass({
   updateState: function(ns, latestResult) {
     $.get("api/namespace/" + ns, function(spec) {
       spec.latestResult = latestResult;
+      spec.actions.sort(utils.sortByName);
+      spec.data.sort(utils.sortByName);
       this.replaceState(spec);
     }.bind(this));
   },

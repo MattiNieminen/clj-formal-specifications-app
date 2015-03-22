@@ -50,3 +50,7 @@ utils.formatError = function(errorMsg) {
   return errorMsg.substring(errorMsg.indexOf(": ") + 2)
       .split(", compiling")[0] + ".";
 }
+
+utils.sortByName = function(x, y) {
+  return x.name.localeCompare(y.name);
+}
