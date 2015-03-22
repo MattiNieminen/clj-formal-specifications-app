@@ -103,6 +103,7 @@ var Toolbar = React.createClass({
     }, this);
     return (
       <div id="toolbar">
+        <h1>Executable Formal Specifications with Clojure</h1>
         <ul>
           <ToolbarItem key={"compose"} url={"#compose"}
               onItemClicked={this.composeClicked}>
