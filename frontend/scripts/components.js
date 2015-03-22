@@ -621,7 +621,6 @@ var GuideBox = React.createClass({
     if(typeof this.props.error !== "undefined") {
       errorMsg =
           <div>
-            <h2>Failed to compose specification</h2>
             <p className="latestDataFailure">
               {this.props.error}
             </p>
@@ -630,7 +629,51 @@ var GuideBox = React.createClass({
 
     return (
       <div id="sidebar">
-        <h2>Writing executable formal specifications with Clojure</h2>
+        <h1>Welcome</h1>
+        <p>This is a proof-of-concept tool for writing and executing <mark>
+        formal specifications with Clojure</mark>.</p>
+
+        <h2>Formal specifications?</h2>
+
+        <p>If you are a novice in formal specifications, read <a
+        href="http://en.wikipedia.org/wiki/Formal_specification">the
+        Wikipedia page about formal specifications</a>.</p>
+
+        <h2>Documentation</h2>
+
+        <p>The formal language used with this tool is Clojure. In addition,
+        this tool leverages a formal specifications library written for the
+        purpose. Refer to the <a
+        href="https://github.com/MattiNieminen/clj-formal-specifications">
+        GitHub page</a> of the library for documentation.</p>
+
+        <p>Looking for the source code of this application? See <a
+        href="https://github.com/MattiNieminen/clj-formal-specifications-app">
+        this GitHub page</a>.</p>
+
+        <h2>How to use this tool?</h2>
+
+        <p>Start by writing your specifications using the <mark>editor</mark> on
+        the right, or open one of the examples. These specifications consists
+        mainly of <mark>atomic actions</mark> declared with <mark>defaction
+        macro</mark>, but feel free to define <mark>normal pure functions
+        </mark> for better separation of concerns (and custom validators for
+        refs). Remember, all of Clojure is at your disposal!</p>
+
+        <p>After that, click <mark>Compose</mark> to evaluate your
+        specification. If the evaluation succeeds, simulate the specification
+        by executing actions using the view that appears here. You can
+        write <mark>execution commands</mark> yourself, or use a simple user
+        interface to build your commands. After every step, the state of the
+        simulation is available for inspection.</p>
+
+        <p><mark>Bash-style history</mark> of all the executed commands can be
+        browsed by using up and down keys while the focus is in the execution
+        form editor.</p>
+
+        <p>If your specification can not be composed, you will see an error
+        message below.</p>
+
         {errorMsg}
       </div>
     );

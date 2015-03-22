@@ -24,6 +24,7 @@
 .fullscreen {
   height: 100%;
   width: 100%;
+  background-color: @executionBoxBg;
 }
 
 html {
@@ -44,7 +45,6 @@ ul {
 
 #content {
   &:extend(.fullscreen);
-  background-color: @executionBoxBg;
 }
 
 #toolbar ul {
@@ -105,11 +105,36 @@ ul {
   box-sizing: border-box;
 }
 
+#sidebar h1 {
+  margin: 0 0 20px 0;
+  color: @blue;
+  font-size: @largeFontSize;
+}
+
 #sidebar h2 {
   margin: 10px 0;
   color: @blue;
   font-size: @smallFontSize;
   font-weight: normal;
+}
+
+#sidebar p {
+  margin: 15px 0;
+  color: #fff;
+  font-size: @smallFontSize;
+}
+
+#sidebar p mark {
+  color: @orange;
+  background-color: transparent;
+}
+
+#sidebar p a {
+  color: @green;
+}
+
+#sidebar p a:hover {
+  color: @pink;
 }
 
 #executionEditor {
@@ -160,7 +185,7 @@ ul {
   margin: 0 0 0 25px;
   padding: 8px;
   color: @executionBoxBg;
-  font-size: @mediumFontSize;
+  font-size: @mediumFontSize !important;
 }
 
 .latestDataSuccess {
