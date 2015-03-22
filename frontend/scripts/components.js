@@ -20,7 +20,6 @@ var SpecificationBox = React.createClass({
     this.refs.editor.setValue("");
     this.refs.editor.focus();
     this.replaceState(this.getInitialState());
-    this.refs.executionBox.reset();
   },
   exampleClicked: function(contents) {
     this.refs.editor.setValue(contents);
@@ -31,6 +30,20 @@ var SpecificationBox = React.createClass({
       spec.latestResult = latestResult;
       this.setState(spec);
     }.bind(this));
+  },
+  renderSidebar: function() {
+    if(typeof this.state.namespace !== "undefined") {
+      return (
+        <ExecutionBox
+            spec={this.state}
+            onActionExecuted={this.updateState} />
+      );
+    }
+    else {
+      return (
+        <GuideBox />
+      );
+    }
   },
   getInitialState: function() {
     return {latestResult: {}};
@@ -44,10 +57,7 @@ var SpecificationBox = React.createClass({
             onExportClicked={this.exportClicked}
             onExampleClicked={this.exampleClicked} />
           <div id="specificationBox">
-            <ExecutionBox
-                spec={this.state}
-                onActionExecuted={this.updateState}
-                ref="executionBox" />
+            {this.renderSidebar()}
             <Editor ref="editor"/>
           </div>
       </div>
@@ -191,12 +201,9 @@ var ExecutionBox = React.createClass({
   setValue: function(value) {
     this.refs.executionBox.setValue(value);
   },
-  reset: function() {
-    this.refs.executionBox.reset();
-  },
   render: function() {
     return (
-      <div id="executionBox">
+      <div id="sidebar">
         <ActionBox
             onActionExecuted={this.actionExecuted}
             spec={this.props.spec}
@@ -270,10 +277,6 @@ var ActionBox = React.createClass({
       this.setValue("");
     }
   },
-  reset: function() {
-    this.setValue("");
-    this.replaceState(this.getInitialState());
-  },
   openActionHelperBox: function() {
     $(this.getDOMNode()).children("#actionHelperForm")
         .slideToggle(100);
@@ -317,6 +320,7 @@ var ActionBox = React.createClass({
     });
 
     this.editor = editor;
+    this.updateEditorFromObject(this.refs.actionHelperBox.state);
   },
   render: function() {
     return (
@@ -328,7 +332,8 @@ var ActionBox = React.createClass({
         </a>
         <ActionHelperBox
             onChange={this.updateEditorFromObject}
-            spec={this.props.spec} />
+            spec={this.props.spec}
+            ref="actionHelperBox" />
       </div>
     );
   }
@@ -601,6 +606,16 @@ var DataItem = React.createClass({
           <p>{this.props.data.contents}</p>
         </div>
       </li>
+    );
+  }
+});
+
+var GuideBox = React.createClass({
+  render: function() {
+    return (
+      <div id="sidebar">
+        <h2>Writing executable formal specifications with Clojure</h2>
+      </div>
     );
   }
 });
