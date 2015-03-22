@@ -12,8 +12,12 @@ var SpecificationBox = React.createClass({
   composeClicked: function() {
     var spec = this.refs.editor.getValue();
 
-    $.post("api/compose", {specification: spec}, function(ns) {
+    var jqxhr = $.post("api/compose", {specification: spec})
+    .done(function(ns) {
       this.updateState(ns, {});
+    }.bind(this))
+    .fail(function(obj) {
+      this.replaceState({composeError: utils.formatError(obj.responseText)});
     }.bind(this));
   },
   resetClicked: function() {
@@ -28,7 +32,7 @@ var SpecificationBox = React.createClass({
   updateState: function(ns, latestResult) {
     $.get("api/namespace/" + ns, function(spec) {
       spec.latestResult = latestResult;
-      this.setState(spec);
+      this.replaceState(spec);
     }.bind(this));
   },
   renderSidebar: function() {
@@ -41,12 +45,12 @@ var SpecificationBox = React.createClass({
     }
     else {
       return (
-        <GuideBox />
+        <GuideBox error={this.state.composeError} />
       );
     }
   },
   getInitialState: function() {
-    return {latestResult: {}};
+    return {};
   },
   render: function() {
     return (
@@ -612,9 +616,22 @@ var DataItem = React.createClass({
 
 var GuideBox = React.createClass({
   render: function() {
+    var errorMsg;
+
+    if(typeof this.props.error !== "undefined") {
+      errorMsg =
+          <div>
+            <h2>Failed to compose specification</h2>
+            <p className="latestDataFailure">
+              {this.props.error}
+            </p>
+          </div>
+    }
+
     return (
       <div id="sidebar">
         <h2>Writing executable formal specifications with Clojure</h2>
+        {errorMsg}
       </div>
     );
   }
