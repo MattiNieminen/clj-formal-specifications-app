@@ -18,6 +18,7 @@ var paths = {
   examples: ['https://raw.githubusercontent.com/MattiNieminen/clj-formal-specifications/master/src/clj_formal_specifications/examples/coin.clj',
              'https://raw.githubusercontent.com/MattiNieminen/clj-formal-specifications/master/src/clj_formal_specifications/examples/simple_account.clj',
              'https://raw.githubusercontent.com/MattiNieminen/clj-formal-specifications/master/src/clj_formal_specifications/examples/shared_account.clj'],
+  fonts: ['frontend/fonts/*'],
   dest: 'resources/public'
 };
 
@@ -54,12 +55,19 @@ gulp.task('examples', function() {
     .pipe(gulp.dest(paths.dest+'/examples'))
 });
 
-gulp.task('watch', ['markup', 'style', 'scripts', 'jsx', 'examples'],
+gulp.task('fonts', function() {
+  return gulp.src(paths.fonts)
+    .pipe(gulp.dest(paths.dest));
+});
+
+gulp.task('watch', ['markup', 'style', 'scripts', 'jsx', 'examples', 'fonts'],
     function() {
   gulp.watch(paths.markup, ['markup']);
   gulp.watch(paths.style, ['style']);
   gulp.watch(paths.scripts, ['scripts']);
-  gulp.watch(paths.jsx, ['jsx'])
+  gulp.watch(paths.jsx, ['jsx']);
+  gulp.watch(paths.fonts, ['fonts']);
 });
 
-gulp.task('default', ['markup', 'style', 'scripts', 'jsx', 'examples']);
+gulp.task('default', ['markup', 'style', 'scripts', 'jsx', 'examples',
+    'fonts']);
