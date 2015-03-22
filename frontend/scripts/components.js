@@ -630,7 +630,8 @@ var GuideBox = React.createClass({
 
     return (
       <div id="sidebar">
-        <h1>Welcome</h1>
+        <h2>About</h2>
+
         <p>This is a proof-of-concept tool for writing and executing <mark>
         formal specifications with Clojure</mark>.</p>
 
