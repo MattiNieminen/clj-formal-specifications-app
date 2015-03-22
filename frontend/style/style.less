@@ -11,10 +11,20 @@
 @yellow: #FFFFA7;
 @grey: #ADC7CC;
 
-@verySmallFontSize: 14px;
-@smallFontSize: 17px;
-@mediumFontSize: 22px;
-@largeFontSize: 30px;
+@verySmallFontSize: 12px;
+@smallFontSize: 14px;
+@mediumFontSize: 18px;
+@largeFontSize: 24px;
+
+@font-face {
+	font-family: 'Lato-Light';
+	src: url('Lato-Light.ttf');
+}
+
+@font-face {
+	font-family: 'Lato-Hairline';
+	src: url('Lato-Hairline.ttf');
+}
 
 * {
   margin: 0;
@@ -33,6 +43,7 @@ html {
 
 body {
   &:extend(.fullscreen);
+  font-family: "Lato-Light", "Sans-Serif";
 }
 
 ul {
