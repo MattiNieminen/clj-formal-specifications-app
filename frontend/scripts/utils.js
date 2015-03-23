@@ -47,8 +47,11 @@ utils.getArgsAsString = function(commandObj) {
 }
 
 utils.formatError = function(errorMsg) {
-  return errorMsg.substring(errorMsg.indexOf(": ") + 2)
-      .split(", compiling")[0] + ".";
+  if(errorMsg.indexOf("action is not available for execution") !== -1) {
+    return "Action is not available for execution.";
+  }
+
+  return errorMsg.split(", compiling")[0] + ".";
 }
 
 utils.sortByName = function(x, y) {
