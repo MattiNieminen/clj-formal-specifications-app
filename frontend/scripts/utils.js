@@ -54,3 +54,9 @@ utils.formatError = function(errorMsg) {
 utils.sortByName = function(x, y) {
   return x.name.localeCompare(y.name);
 }
+
+utils.specificationTemplate =
+    "; Feel free to rename this namespace.\n" +
+    "(ns specification.core\n" +
+    "  (:require [clj-formal-specifications.core :refer :all]))\n\n" +
+    "  ; Your functions and actions go here.\n";

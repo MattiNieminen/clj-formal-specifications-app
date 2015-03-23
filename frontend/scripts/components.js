@@ -21,8 +21,9 @@ var SpecificationBox = React.createClass({
     }.bind(this));
   },
   resetClicked: function() {
-    this.refs.editor.setValue("");
+    this.refs.editor.setValue(utils.specificationTemplate);
     this.refs.editor.focus();
+    this.refs.editor.clearSelection();
     this.replaceState(this.getInitialState());
   },
   exampleClicked: function(contents) {
@@ -191,7 +192,9 @@ var Editor = React.createClass({
     editor.setTheme("ace/theme/clj-formal-specifications-app");
     editor.getSession().setMode("ace/mode/clojure");
     editor.setShowPrintMargin(false);
+    editor.setValue(utils.specificationTemplate);
     editor.focus();
+    editor.clearSelection();
     this.editor = editor;
   },
   render: function() {
