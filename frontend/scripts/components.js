@@ -23,12 +23,10 @@ var SpecificationBox = React.createClass({
   resetClicked: function() {
     this.refs.editor.setValue(utils.specificationTemplate);
     this.refs.editor.focus();
-    this.refs.editor.clearSelection();
     this.replaceState(this.getInitialState());
   },
   exampleClicked: function(contents) {
     this.refs.editor.setValue(contents);
-    this.refs.editor.clearSelection();
   },
   updateState: function(ns, latestResult) {
     $.get("api/namespace/" + ns, function(spec) {
@@ -180,12 +178,10 @@ var Editor = React.createClass({
   },
   setValue: function(value) {
     this.editor.setValue(value);
+    this.editor.clearSelection();
   },
   focus: function() {
     this.editor.focus();
-  },
-  clearSelection: function() {
-    this.editor.clearSelection();
   },
   componentDidMount: function() {
     var editor = ace.edit("editor");
