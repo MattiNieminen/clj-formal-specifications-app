@@ -252,6 +252,7 @@ var ActionBox = React.createClass({
   },
   setValue: function(value) {
     this.editor.setValue(value);
+    this.editor.clearSelection();
   },
   getPrevFromHistory: function() {
     var index = this.state.historyIndex;
