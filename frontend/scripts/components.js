@@ -225,26 +225,30 @@ var ExecutionBox = React.createClass({
 
 var ActionBox = React.createClass({
   executeAction: function() {
-    var requestObject = {
-      ns: this.props.spec.namespace,
-      command: this.editor.getValue()
-    };
+    var command = this.editor.getValue();
 
-    var jqxhr = $.post("api/execute", requestObject)
-    .done(function(data) {
-      this.props.onActionExecuted(requestObject.ns,
-          {success: true, data: data});
-    }.bind(this))
-    .fail(function(obj) {
-      this.props.onActionExecuted(requestObject.ns,
-          {success: false, data: utils.formatError(obj.responseText)});
-    }.bind(this))
-    .always(function() {
-      var history = this.state.history;
-      history.push(requestObject.command);
-      this.setState({history: history, historyIndex: null});
-      this.setValue("");
-    }.bind(this));
+    if(command) {
+      var requestObject = {
+        ns: this.props.spec.namespace,
+        command: this.editor.getValue()
+      };
+
+      var jqxhr = $.post("api/execute", requestObject)
+      .done(function(data) {
+        this.props.onActionExecuted(requestObject.ns,
+            {success: true, data: data});
+      }.bind(this))
+      .fail(function(obj) {
+        this.props.onActionExecuted(requestObject.ns,
+            {success: false, data: utils.formatError(obj.responseText)});
+      }.bind(this))
+      .always(function() {
+        var history = this.state.history;
+        history.push(requestObject.command);
+        this.setState({history: history, historyIndex: null});
+        this.setValue("");
+      }.bind(this));
+    }
   },
   setValue: function(value) {
     this.editor.setValue(value);
