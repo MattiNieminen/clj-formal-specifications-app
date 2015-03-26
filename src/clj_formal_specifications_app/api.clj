@@ -1,6 +1,7 @@
 (ns clj-formal-specifications-app.api
   (:require [clj-formal-specifications-app.examples :as examples]
-            [clj-formal-specifications-app.spec :as spec]))
+            [clj-formal-specifications-app.spec :as spec]
+            [clojure.string :as str]))
 
 (defn example-listing
   []
@@ -21,6 +22,13 @@
     (try
       {:body (do (remove-ns (symbol ns)) (load-string spec) ns)}
       (catch Exception e (bad-request e)))))
+
+(defn export
+  [spec]
+    {:body {:filename (if-let [ns (spec/get-ns-name spec)]
+                        (str (peek (str/split ns #"\.")) ".clj")
+                        "untitled.clj")
+            :contents spec}})
 
 (defn execute-with-ns
   [ns command]

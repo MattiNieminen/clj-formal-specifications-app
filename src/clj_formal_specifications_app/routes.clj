@@ -10,6 +10,7 @@
   (GET "/api/examples" [] (api/example-listing))
   (GET "/api/examples/:filename" [filename] (api/example-file filename))
   (POST "/api/compose" [specification] (api/compose specification))
+  (POST "/api/export" [specification] (api/export specification))
   (POST "/api/execute" [ns command] (api/execute-with-ns ns command))
   (GET "/api/namespace/:ns" [ns] (api/ns-data ns)))
 
