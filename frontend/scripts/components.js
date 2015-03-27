@@ -1,13 +1,16 @@
 var SpecificationBox = React.createClass({
   exportClicked: function() {
-    // This is so dirty, but what else can we do?
-    var contents = this.refs.editor.getValue();
-    var a = document.body.appendChild(document.createElement("a"));
-    a.download = "specification.clj";
-    a.href = "data:text/plain;charset=utf-8," + encodeURIComponent(contents);
-    a.innerHTML = "[Export content]";
-    a.click();
-    a.parentNode.removeChild(a);
+    $.post("api/export", {specification: this.refs.editor.getValue()},
+        function(data) {
+      // This is so dirty, but what else can we do?
+      var a = document.body.appendChild(document.createElement("a"));
+      a.download = data.filename;
+      a.href = "data:text/plain;charset=utf-8," +
+          encodeURIComponent(data.contents);
+      a.innerHTML = "[Export content]";
+      a.click();
+      a.parentNode.removeChild(a);
+    });
   },
   composeClicked: function() {
     var spec = this.refs.editor.getValue();
