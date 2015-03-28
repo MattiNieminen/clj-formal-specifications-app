@@ -15,13 +15,15 @@ var SpecificationBox = React.createClass({
   composeClicked: function() {
     var spec = this.refs.editor.getValue();
 
-    var jqxhr = $.post("api/compose", {specification: spec})
-    .done(function(ns) {
-      this.updateState(ns, {});
-    }.bind(this))
-    .fail(function(obj) {
-      this.replaceState({composeError: utils.formatError(obj.responseText)});
-    }.bind(this));
+    if(spec) {
+      var jqxhr = $.post("api/compose", {specification: spec})
+      .done(function(ns) {
+        this.updateState(ns, {});
+      }.bind(this))
+      .fail(function(obj) {
+        this.replaceState({composeError: utils.formatError(obj.responseText)});
+      }.bind(this));
+    }
   },
   resetClicked: function() {
     this.refs.editor.setValue(utils.specificationTemplate);
