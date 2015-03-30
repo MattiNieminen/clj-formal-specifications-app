@@ -4,11 +4,13 @@
             [clojure.string :as str]))
 
 (defn example-listing
+  "Returns names of all possible examples."
   []
   {:body (map examples/example
               (examples/files-in-classpath examples/example-dir))})
 
 (defn example-file
+  "Returns the contents of an example specification by filename."
   [filename]
   {:body {:contents (slurp (examples/example-file filename))}})
 
@@ -17,6 +19,9 @@
   {:body (.getMessage e) :status 400})
 
 (defn compose
+  "Expects spec to be a formal specification with ns form in the beginning.
+  If the namespace exists, erases it. Then evaluates the spec and returns
+  the namespace used in the specification."
   [spec]
   (let [ns (spec/get-ns-name spec)]
     (try
@@ -24,6 +29,9 @@
       (catch Exception e (bad-request e)))))
 
 (defn export
+  "Expects spec to be a formal specification with ns form in the beginning.
+  Returns a map of the formal specification, where filename is parsed from
+  the ns form in spec."
   [spec]
     {:body {:filename (if-let [ns (spec/get-ns-name spec)]
                         (str (peek (str/split ns #"\.")) ".clj")
@@ -31,6 +39,9 @@
             :contents spec}})
 
 (defn execute-with-ns
+  "Evaluates command, which should be a valid Clojure form with execute or
+  execute-init, in a namepace ns. Returns the result of the evaluation as
+  string."
   [ns command]
   (try
     {:body (str (binding [*ns* (find-ns (symbol ns))] (load-string command)))}
