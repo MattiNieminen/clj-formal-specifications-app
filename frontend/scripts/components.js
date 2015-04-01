@@ -1,3 +1,5 @@
+// Parent container for all the other components. Owner of the application
+// state.
 var SpecificationBox = React.createClass({
   exportClicked: function() {
     $.post("api/export", {specification: this.refs.editor.getValue()},
@@ -34,6 +36,9 @@ var SpecificationBox = React.createClass({
     this.refs.editor.setValue(contents);
   },
   updateState: function(ns, latestResult) {
+    // Fetch specification related vars from certain namespace,
+    // and combine them with the latest result of evaluating a command.
+    // Re-renders almost the entire application.
     $.get("api/namespace/" + ns, function(spec) {
       spec.latestResult = latestResult;
       spec.actions.sort(utils.sortByName);
@@ -75,6 +80,7 @@ var SpecificationBox = React.createClass({
   }
 });
 
+// The toolbar at the top of the app.
 var Toolbar = React.createClass({
   composeClicked: function() {
     this.props.onComposeClicked();
@@ -102,6 +108,8 @@ var Toolbar = React.createClass({
     var exampleItems = this.state.examples.map(function(example) {
       return (
         <ToolbarItem key={example.filename} url="#"
+            // Binds the component to the function call in order to update
+            // props.
             onItemClicked={this.exampleClicked.bind(this, example.filename)}>
           {example.title}
         </ToolbarItem>
@@ -135,12 +143,15 @@ var Toolbar = React.createClass({
   }
 });
 
+// Container for items that are inside of a dropdown menu.
 var Dropdown = React.createClass({
   toggleMenu: function() {
     $(this.getDOMNode()).children("ul").slideToggle(100);
   },
   renderChildren: function() {
     return React.Children.map(this.props.children, function(child) {
+      // Children are normal ToolbarItems, so toggleMenu must be added to them
+      // in order to hide the menu when item is clicked.
       return React.addons.cloneWithProps(child, {toggleMenu: this.toggleMenu});
     }.bind(this));
   },
@@ -156,12 +167,14 @@ var Dropdown = React.createClass({
   }
 });
 
+// A single item in the top toolbar, or an item in the dropdown menu.
 var ToolbarItem = React.createClass({
   itemClicked: function() {
     if(typeof(this.props.onItemClicked) === typeof(Function)) {
       this.props.onItemClicked();
     }
 
+    // Only execute toggleMenu if it a defined function
     if(typeof(this.props.toggleMenu) === typeof(Function)) {
       this.props.toggleMenu();
     }
@@ -177,6 +190,7 @@ var ToolbarItem = React.createClass({
   }
 });
 
+// The specification editor.
 var Editor = React.createClass({
   getValue: function() {
     return this.editor.getValue();
@@ -205,6 +219,7 @@ var Editor = React.createClass({
   }
 });
 
+// Sidebar, when specification has been composed.
 var ExecutionBox = React.createClass({
   actionExecuted: function(namespace, data) {
     this.props.onActionExecuted(namespace, data);
@@ -228,6 +243,8 @@ var ExecutionBox = React.createClass({
   }
 });
 
+// Container for all sidebar components that have something to do with
+// executing commands. This includes the editor and the helper form.
 var ActionBox = React.createClass({
   executeAction: function() {
     var command = this.editor.getValue();
@@ -355,6 +372,7 @@ var ActionBox = React.createClass({
   }
 });
 
+// The helper form for creating execution commands.
 var ActionHelperBox = React.createClass({
   changeOperation: function(operation) {
     this.setState({operation: operation}, function() {
@@ -417,6 +435,7 @@ var ActionHelperBox = React.createClass({
   }
 });
 
+// Part of the helper form for creating execution commands.
 var OperationSelector = React.createClass({
   operationChange: function(event) {
     this.props.onOperationChange(event.target.value);
@@ -445,6 +464,7 @@ var OperationSelector = React.createClass({
   }
 });
 
+// Part of the helper form for creating execution commands.
 var ActionSelector = React.createClass({
   actionChange: function(event) {
     var selectedAction = {name: "", arglist: []};
@@ -486,6 +506,7 @@ var ActionSelector = React.createClass({
   }
 });
 
+// Part of the helper form for creating execution commands.
 var ArgumentList = React.createClass({
   argChange: function(key, value) {
     this.props.onArgChange(key, value);
@@ -495,6 +516,8 @@ var ArgumentList = React.createClass({
 
     if(typeof this.props.arglist !== "undefined") {
       args = this.props.arglist.map(function(arg) {
+        // For each possible ref in the namespace, generate possible
+        // values for argument usage.
         var options = this.props.data.map(function(dataItem) {
           return [
             <option value={dataItem.name} />,
@@ -510,6 +533,8 @@ var ArgumentList = React.createClass({
               <input
                   list="dataItems"
                   name="dataItems"
+                  // New function for sending argument name in addition
+                  // to the value.
                   onChange={function(event) {this.argChange(arg,
                         event.target.value);}.bind(this)} />
               <datalist id="dataItems">
@@ -529,6 +554,7 @@ var ArgumentList = React.createClass({
   }
 });
 
+// Part of the helper form for creating execution commands.
 var RefOptions = React.createClass({
   refNameChange: function(event) {
     this.props.onRefNameChange(event.target.value);
@@ -566,6 +592,7 @@ var RefOptions = React.createClass({
   }
 });
 
+// Shows the result of latest evaluation in the sidebar.
 var LatestResultBox = React.createClass({
   render: function() {
     var latestData;
@@ -585,6 +612,8 @@ var LatestResultBox = React.createClass({
   }
 });
 
+
+// Container for showing the specification related refs in the sidebar.
 var DataBox = React.createClass({
   render: function() {
     var dataItems = [];
@@ -608,6 +637,7 @@ var DataBox = React.createClass({
   }
 });
 
+// Single item showing a ref name and the data it contains in the sidebar.
 var DataItem = React.createClass({
   toggleContent: function() {
     $(this.getDOMNode()).children(".dataItemContent").slideToggle(100);
@@ -626,6 +656,7 @@ var DataItem = React.createClass({
   }
 });
 
+// Sidebar when specification is not composed.
 var GuideBox = React.createClass({
   render: function() {
     var errorMsg;
