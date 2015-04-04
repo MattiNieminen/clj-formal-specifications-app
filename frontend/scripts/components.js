@@ -170,9 +170,7 @@ var Dropdown = React.createClass({
 // A single item in the top toolbar, or an item in the dropdown menu.
 var ToolbarItem = React.createClass({
   itemClicked: function() {
-    if(typeof(this.props.onItemClicked) === typeof(Function)) {
-      this.props.onItemClicked();
-    }
+    this.props.onItemClicked();
 
     // Only execute toggleMenu if it a defined function
     if(typeof(this.props.toggleMenu) === typeof(Function)) {
