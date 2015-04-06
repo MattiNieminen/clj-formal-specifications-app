@@ -43,7 +43,7 @@
 
 (defn example
   [file]
-  (let [filename (peek (str/split (str file) #"/"))]
+  (let [filename (peek (str/split (str/replace (str file) #"\\" "/") #"/"))]
     {:title (filename-as-text filename)
      :filename filename}))
 
