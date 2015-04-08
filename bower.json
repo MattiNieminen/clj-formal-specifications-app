@@ -2,8 +2,8 @@
   "name": "clj-formal-specifications-app",
   "private": true,
   "dependencies": {
-    "react": "~0.12.2",
+    "react": "~0.13.1",
     "jquery": "~2.1.3",
-    "ace-builds": "~1.1.8"
+    "ace-builds": "~1.1.9"
   }
 }
