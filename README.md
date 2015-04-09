@@ -39,7 +39,10 @@ lein run
 gulp watch
 ```
 
-The frontend is written in JavaScript using React. Edit files under frontend directory and use gulp to build them under resources directory. From there, the Clojure backend will serve them.
+The frontend is written in JavaScript using React. Edit files under
+frontend directory and use gulp to build them under resources directory.
+From there, the Clojure backend will serve them. The backend is a simple
+Clojure + Ring + Compojure -project.
 
 ## I just want to run this thing
 
