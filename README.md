@@ -14,9 +14,38 @@ writing your own execution commands is possible as well.
 
 ## Setting up the development environment
 
-TODO
+* Clone this repository
+* Install the latest Java Development Kit
+* Install [Leiningen](http://leiningen.org/#install)
+* Install Node.js
+
+Then go to the directory that was cloned and:
+
+```bash
+npm install -g gulp bower
+npm install
+bower install
+```
+
+To start the development, run these two commands in *separate* terminals:
+
+```bash
+# Starts the backend
+lein run
+```
+
+```bash
+# Builds the frontend and keeps watching for changes
+gulp watch
+```
+
+The frontend is written in JavaScript using React. Edit files under frontend directory and use gulp to build them under resources directory. From there, the Clojure backend will serve them.
 
 ## I just want to run this thing
+
+TODO
+
+## About running this as a service
 
 TODO
 
