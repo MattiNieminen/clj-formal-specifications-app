@@ -48,9 +48,11 @@ Clojure + Ring + Compojure -project.
 
 TODO
 
-## About running this as a service
+## I want to run this as a service for everyone!
 
-TODO
+Dont do it!
+
+TODO: longer explanation
 
 ## License
 
