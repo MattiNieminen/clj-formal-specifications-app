@@ -46,7 +46,7 @@ Clojure + Ring + Compojure -project.
 
 ## I just want to run this thing
 
-TODO
+TODO find a location for hosting the uberjar.
 
 ## I want to run this as a service for everyone!
 
