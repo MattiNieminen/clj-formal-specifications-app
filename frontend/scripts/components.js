@@ -364,6 +364,7 @@ var ActionBox = React.createClass({
         <ActionHelperBox
             onChange={this.updateEditorFromObject}
             spec={this.props.spec}
+            enterPressed={this.executeAction}
             ref="actionHelperBox" />
       </div>
     );
@@ -399,6 +400,10 @@ var ActionHelperBox = React.createClass({
       this.props.onChange(this.state);
     });
   },
+  submit: function(event) {
+    event.preventDefault();
+    this.props.enterPressed();
+  },
   componentWillReceiveProps: function(nextProps) {
     this.setState(this.getInitialState(), function() {
       this.props.onChange(this.state);
@@ -411,23 +416,26 @@ var ActionHelperBox = React.createClass({
   render: function() {
     return (
       <div id="actionHelperForm">
-        <OperationSelector
-            operation={this.state.operation}
-            onOperationChange={this.changeOperation} />
-        <ActionSelector
-            selectedAction={this.state.action.name}
-            actions={this.props.spec.actions}
-            onActionChange={this.changeAction} />
-        <ArgumentList
-            arglist={this.state.action.arglist}
-            data={this.props.spec.data}
-            onArgChange={this.changeArgs} />
-        <RefOptions
-            operation={this.state.operation}
-            refName={this.state.refName}
-            validator={this.state.validator}
-            onRefNameChange={this.changeRefName}
-            onValidatorChange={this.changeValidator} />
+        <form onSubmit={this.submit}>
+          <OperationSelector
+              operation={this.state.operation}
+              onOperationChange={this.changeOperation} />
+          <ActionSelector
+              selectedAction={this.state.action.name}
+              actions={this.props.spec.actions}
+              onActionChange={this.changeAction} />
+          <ArgumentList
+              arglist={this.state.action.arglist}
+              data={this.props.spec.data}
+              onArgChange={this.changeArgs} />
+          <RefOptions
+              operation={this.state.operation}
+              refName={this.state.refName}
+              validator={this.state.validator}
+              onRefNameChange={this.changeRefName}
+              onValidatorChange={this.changeValidator} />
+          <input type="submit" value="Execute"/>
+        </form>
       </div>
     );
   }
