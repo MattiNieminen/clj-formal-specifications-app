@@ -434,7 +434,8 @@ var ActionHelperBox = React.createClass({
               validator={this.state.validator}
               onRefNameChange={this.changeRefName}
               onValidatorChange={this.changeValidator} />
-          <input type="submit" value="Execute"/>
+          <input id="actionHelperFormSubmit" type="submit"
+            value="Execute"/>
         </form>
       </div>
     );
