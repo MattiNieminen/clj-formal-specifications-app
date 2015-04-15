@@ -27,10 +27,14 @@ npm install
 bower install
 ```
 
-To start the development, run these two commands in *separate* terminals:
+To start the development, run you need ton run two commands in
+*separate* terminals:
 
 ```bash
-# Starts the backend
+# Starts the backend with ring-reload
+lein run hot-deploy
+
+# Or, in case you don't care about hot-deploying code but performance
 lein run
 ```
 
