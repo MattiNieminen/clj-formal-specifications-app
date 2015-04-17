@@ -27,8 +27,7 @@ npm install
 bower install
 ```
 
-To start the development, run you need ton run two commands in
-*separate* terminals:
+To start the development, you need to run two commands in *separate* terminals:
 
 ```bash
 # Starts the backend with ring-reload
