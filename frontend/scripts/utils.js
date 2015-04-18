@@ -2,16 +2,24 @@ var utils = utils || {};
 
 // Function for turning a command object into a Clojure form starting with
 // execute or execute-init. Uses placeholders in case the object is not
-//complete.
+// complete.
 utils.toExecutionCommand = function(commandObj) {
   var executionCommand = "";
   var actionName = commandObj.action.name || "<<action-name>>";
   var refName = commandObj.refName || "<<ref-name>>";
   var validator = commandObj.validator || null;
+  var saveRef = commandObj.saveRef || null;
   var argsAsString = utils.getArgsAsString(commandObj);
 
   if(commandObj.operation === "execute") {
-    executionCommand = "(execute (" + actionName + argsAsString + "))";
+    executionCommand = "(execute (" + actionName + argsAsString + ")";
+
+    if(saveRef !== null) {
+      executionCommand += " " + saveRef + ")"
+    }
+    else {
+      executionCommand += ")";
+    }
   }
   else if(commandObj.operation === "execute-init") {
     executionCommand = "(execute-init " + refName +

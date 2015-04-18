@@ -400,6 +400,11 @@ var ActionHelperBox = React.createClass({
       this.props.onChange(this.state);
     });
   },
+  changeSaveRef: function(refName) {
+    this.setState({saveRef: refName}, function() {
+      this.props.onChange(this.state);
+    })
+  },
   submit: function(event) {
     event.preventDefault();
     this.props.enterPressed();
@@ -411,7 +416,7 @@ var ActionHelperBox = React.createClass({
   },
   getInitialState: function() {
     return {operation: "execute", action: {name: "", arglist: []}, args: [],
-        refName: null, validator: null};
+        refName: null, validator: null, saveRef: ""};
   },
   render: function() {
     return (
@@ -433,7 +438,10 @@ var ActionHelperBox = React.createClass({
               refName={this.state.refName}
               validator={this.state.validator}
               onRefNameChange={this.changeRefName}
-              onValidatorChange={this.changeValidator} />
+              onValidatorChange={this.changeValidator}
+              data={this.props.spec.data}
+              saveRef={this.state.saveRef}
+              onSaveRefChange={this.changeSaveRef} />
           <input id="actionHelperFormSubmit" type="submit"
             value="Execute"/>
         </form>
@@ -569,6 +577,9 @@ var RefOptions = React.createClass({
   validatorChange: function(event) {
     this.props.onValidatorChange(event.target.value);
   },
+  saveRefChange: function(event) {
+    this.props.onSaveRefChange(event.target.value);
+  },
   render: function() {
     if(this.props.operation === "execute-init") {
       return (
@@ -594,7 +605,28 @@ var RefOptions = React.createClass({
       );
     }
     else {
-      return null;
+      // For each possible ref in the namespace, generate option for
+      // drop-down menu.
+      var refs = this.props.data.map(function(dataItem) {
+        return (
+          <option key={dataItem.name} value={dataItem.name} >
+            {dataItem.name}
+          </option>
+        );
+      });
+
+      return (
+        <div id="refOptions" className="actionHelperFormBlock">
+          <label>Ref for saving the result</label>
+          <div className="actionHelperFormInput">
+            <select value={this.props.saveRef}
+                onChange={this.saveRefChange}>
+              <option value={""}>Select ref...</option>
+              {refs}
+            </select>
+          </div>
+        </div>
+      );
     }
   }
 });
