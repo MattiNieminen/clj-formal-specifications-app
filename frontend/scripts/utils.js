@@ -26,7 +26,7 @@ utils.toExecutionCommand = function(commandObj) {
       " (" + actionName + argsAsString + ")";
 
     if(validator !== null) {
-      executionCommand += " " + commandObj.validator + ")";
+      executionCommand += " " + validator + ")";
     }
     else {
       executionCommand += ")";
