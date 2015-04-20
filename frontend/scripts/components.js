@@ -322,6 +322,7 @@ var ActionBox = React.createClass({
     var editor = ace.edit("executionEditor");
     editor.setTheme("ace/theme/clj-formal-specifications-app");
     editor.getSession().setMode("ace/mode/clojure");
+    editor.renderer.setShowGutter(false);
 
     editor.commands.addCommand({
       name: 'executeCommand',
