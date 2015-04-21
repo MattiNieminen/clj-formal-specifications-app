@@ -459,7 +459,7 @@ var OperationSelector = React.createClass({
   render: function() {
     return (
       <div className="actionHelperFormBlock">
-        <label>Operation</label>
+        <label className="required">Operation</label>
         <div className="actionHelperFormInput">
           <input type="radio"
               name="operation"
@@ -509,7 +509,7 @@ var ActionSelector = React.createClass({
 
     return (
       <div className="actionHelperFormBlock">
-        <label>Action</label>
+        <label className="required">Action</label>
         <div className="actionHelperFormInput">
           <select value={this.props.selectedAction}
               onChange={this.actionChange}>
@@ -544,7 +544,7 @@ var ArgumentList = React.createClass({
 
         return (
           <div key={arg + "_div"}>
-            <label>{arg}</label>
+            <label className="required">{arg}</label>
             <div className="actionHelperFormInput">
               <input
                   list="dataItems"
@@ -585,7 +585,7 @@ var RefOptions = React.createClass({
     if(this.props.operation === "execute-init") {
       return (
         <div id="refOptions" className="actionHelperFormBlock">
-          <label>Ref name</label>
+          <label className="required">Ref name</label>
           <div className="actionHelperFormInput">
             <input
                 type="text"
