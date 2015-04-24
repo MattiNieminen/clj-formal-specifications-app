@@ -212,10 +212,24 @@ var Editor = React.createClass({
   },
   render: function() {
     return (
-      <div id="editor"></div>
+      <div id="editorContainer">
+        <div id="editor"></div>
+        <StatusBar />
+      </div>
     );
   }
 });
+
+// The status bar below the editor.
+var StatusBar = React.createClass({
+  render: function() {
+    return (
+      <div id="statusBar"></div>
+    );
+  }
+});
+
+
 
 // Sidebar, when specification has been composed.
 var ExecutionBox = React.createClass({
