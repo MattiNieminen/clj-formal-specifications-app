@@ -200,8 +200,16 @@ var Editor = React.createClass({
   focus: function() {
     this.editor.focus();
   },
+  getInitialState: function() {
+    return {row: 0, column: 0};
+  },
   componentDidMount: function() {
     var editor = ace.edit("editor");
+
+    editor.getSession().selection.on('changeCursor', function(e) {
+      this.setState(editor.selection.getCursor());
+    }.bind(this));
+
     editor.setTheme("ace/theme/clj-formal-specifications-app");
     editor.getSession().setMode("ace/mode/clojure");
     editor.setShowPrintMargin(false);
@@ -214,7 +222,7 @@ var Editor = React.createClass({
     return (
       <div id="editorContainer">
         <div id="editor"></div>
-        <StatusBar />
+        <StatusBar row={this.state.row} column={this.state.column} />
       </div>
     );
   }
@@ -224,7 +232,9 @@ var Editor = React.createClass({
 var StatusBar = React.createClass({
   render: function() {
     return (
-      <div id="statusBar"></div>
+      <div id="statusBar">
+        <p>{this.props.row} / {this.props.column}</p>
+      </div>
     );
   }
 });
