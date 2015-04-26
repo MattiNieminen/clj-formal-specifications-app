@@ -233,7 +233,7 @@ var StatusBar = React.createClass({
   render: function() {
     return (
       <div id="statusBar">
-        <p>{this.props.row} / {this.props.column}</p>
+        <p>{this.props.row+1} / {this.props.column+1}</p>
       </div>
     );
   }
