@@ -2,7 +2,7 @@
 
 (defn get-ns-name
   "If the given string starts with the ns macro call, returns the first
-  parameter given to it, which is the name of the namespace."
+  parameter given to it, which should be the name of the namespace."
   [s]
   (re-find #"(?<=\(ns\s)[a-zA-Z0-9\.-]+(?=[\s\(\)])" s))
 
