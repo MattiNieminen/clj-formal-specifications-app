@@ -49,7 +49,11 @@ Clojure + Ring + Compojure -project.
 
 ## I just want to run this thing
 
-TODO find a location for hosting the uberjar.
+Download the jar from the releases page and execute it with command:
+
+```bash
+java -jar /path/to/clj-formal-specifications-app.jar
+```
 
 ## I want to run this as a service for everyone!
 
