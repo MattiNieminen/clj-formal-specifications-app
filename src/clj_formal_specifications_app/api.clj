@@ -33,10 +33,10 @@
   Returns a map of the formal specification, where filename is parsed from
   the ns form in spec."
   [spec]
-    {:body {:filename (if-let [ns (spec/get-ns-name spec)]
-                        (str (peek (str/split ns #"\.")) ".clj")
-                        "untitled.clj")
-            :contents spec}})
+  {:body {:filename (if-let [ns (spec/get-ns-name spec)]
+                      (str (peek (str/split ns #"\.")) ".clj")
+                      "untitled.clj")
+          :contents spec}})
 
 (defn execute-with-ns
   "Evaluates command, which should be a valid Clojure form with execute or
