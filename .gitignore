@@ -10,3 +10,6 @@ pom.xml.asc
 /resources
 /node_modules
 /bower_components
+/bin/
+.classpath
+.project
