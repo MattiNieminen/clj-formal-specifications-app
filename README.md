@@ -49,7 +49,10 @@ Clojure + Ring + Compojure -project.
 
 ## I just want to run this thing
 
-Download the jar from the releases page and execute it with command:
+Download the jar from
+[the releases page]
+(https://github.com/MattiNieminen/clj-formal-specifications-app/releases/latest)
+and execute it with command:
 
 ```bash
 java -jar /path/to/clj-formal-specifications-app.jar
