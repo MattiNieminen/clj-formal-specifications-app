@@ -30,7 +30,7 @@
 
 (defn export
   "Expects spec to be a formal specification with ns form in the beginning.
-  Returns a map of the formal specification, where filename is parsed from
+  Returns a map of the formal specification where filename is parsed from
   the ns form in spec."
   [spec]
   {:body {:filename (if-let [ns (spec/get-ns-name spec)]
@@ -39,8 +39,8 @@
           :contents spec}})
 
 (defn execute-with-ns
-  "Evaluates command, which should be a valid Clojure form with execute or
-  execute-init, in a namepace ns. Returns the result of the evaluation as
+  "Evaluates command in namespace ns. Command should be a valid Clojure form
+  with execute or execute-init. Returns the result of the evaluation as
   string."
   [ns command]
   (try

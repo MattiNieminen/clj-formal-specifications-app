@@ -150,7 +150,7 @@ var Dropdown = React.createClass({
   },
   renderChildren: function() {
     return React.Children.map(this.props.children, function(child) {
-      // Children are normal ToolbarItems, so toggleMenu must be added to them
+      // Children are normal ToolbarItems so toggleMenu must be added to them
       // in order to hide the menu when item is clicked.
       return React.addons.cloneWithProps(child, {toggleMenu: this.toggleMenu});
     }.bind(this));
@@ -167,7 +167,7 @@ var Dropdown = React.createClass({
   }
 });
 
-// A single item in the top toolbar, or an item in the dropdown menu.
+// A single item in the top toolbar or an item in the dropdown menu.
 var ToolbarItem = React.createClass({
   itemClicked: function() {
     this.props.onItemClicked();
@@ -241,7 +241,7 @@ var StatusBar = React.createClass({
 
 
 
-// Sidebar, when specification has been composed.
+// Sidebar when the specification has been composed.
 var ExecutionBox = React.createClass({
   actionExecuted: function(namespace, data) {
     this.props.onActionExecuted(namespace, data);
@@ -764,7 +764,7 @@ var GuideBox = React.createClass({
         <p>Start by writing your specifications using the <mark>editor</mark> on
         the right, or open one of the examples. These specifications consists
         mainly of <mark>atomic actions</mark> declared with <mark>defaction
-        macro</mark>, but feel free to define <mark>normal pure functions
+        macro</mark> but feel free to define <mark>normal pure functions
         </mark> for better separation of concerns (and custom validators for
         refs). Remember, all of Clojure is at your disposal!</p>
 

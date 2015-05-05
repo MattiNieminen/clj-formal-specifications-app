@@ -2,7 +2,7 @@
 
 (defn get-ns-name
   "If the given string starts with the ns macro call, returns the first
-  parameter given to it, which should be the name of the namespace."
+  parameter given to it which should be the name of the namespace."
   [s]
   (re-find #"(?<=\(ns\s)[a-zA-Z0-9\.-]+(?=[\s\(\)])" s))
 
@@ -25,7 +25,7 @@
                    :contents (str @(var-get (val spec-ref-entry)))}))
 
 (defn assoc-to-spec
-  "Associates a map-entry to spec, if map-entry is action or specification
+  "Associates a map-entry to spec if map-entry is action or specification
   related ref."
  [spec map-entry]
   (cond
