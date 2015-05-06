@@ -62,7 +62,20 @@ java -jar /path/to/clj-formal-specifications-app.jar
 
 Dont do it!
 
-TODO: longer explanation
+The contents of the editor, which contains the formal specification, will be
+evaluated in the backend when the specification is composed. By running this
+application as a service over the network, you allow everyone who is able
+to access the editor (or the API behind it) to execute any Clojure code at the
+server where this app is running. The attacker can do all sort of bad stuff
+without even trying!
+
+It is possible to run this application inside a safe container (Docker
+container for example). This of course does not solve the problem, but it may
+provide some safety for the host machine behind the container.
+
+To solve this problem properly, Clojail could be used to provide a safe
+sandbox for the evaluation. If you interested in developing this feature,
+contact me!
 
 ## License
 
